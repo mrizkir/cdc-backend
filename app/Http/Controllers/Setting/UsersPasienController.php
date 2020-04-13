@@ -9,7 +9,7 @@ use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-class UsersOPDController extends Controller {         
+class UsersPasienController extends Controller {         
     /**
      * Show the form for creating a new resource.
      *
@@ -17,18 +17,18 @@ class UsersOPDController extends Controller {
      */
     public function index(Request $request)
     {           
-        $this->hasPermissionTo('USERS OPD_BROWSE');
+        $this->hasPermissionTo('USERS PASIEN_BROWSE');
         $user=$this->guard()->user();
-        if ($user->hasRole(['superadmin','bapelitbang']))
+        if ($user->hasRole(['superadmin','petugas']))
         {
-            $data = User::role('opd')->get();
+            $data = User::role('pasien')->get();
         }       
-        else if ($user->hasRole('opd'))
+        else if ($user->hasRole('pasien'))
         {
-            $daftar_opd=json_decode($user->payload,true);
-            $data = User::role('opd')->where(function ($query) use ($daftar_opd){
-                for ($i = 0; $i < count($daftar_opd); $i++){
-                    $query->orwhere('payload', 'ilike',  '%' . $daftar_opd[$i] .'%');
+            $daftar_pasien=json_decode($user->payload,true);
+            $data = User::role('pasien')->where(function ($query) use ($daftar_pasien){
+                for ($i = 0; $i < count($daftar_pasien); $i++){
+                    $query->orwhere('payload', 'ilike',  '%' . $daftar_pasien[$i] .'%');
                  }
              })->get();
         }
@@ -36,8 +36,8 @@ class UsersOPDController extends Controller {
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
-                                'usersopd'=>$data,
-                                'message'=>'Fetch data users OPD berhasil diperoleh'
+                                'userspasien'=>$data,
+                                'message'=>'Fetch data users Pasien berhasil diperoleh'
                             ],200);  
     }    
     /**
@@ -48,7 +48,7 @@ class UsersOPDController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('USERS OPD_STORE');
+        $this->hasPermissionTo('USERS PASIEN_STORE');
         $this->validate($request, [
             'name'=>'required',
             'email'=>'required|string|email|unique:users',
@@ -68,20 +68,20 @@ class UsersOPDController extends Controller {
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
-        $role='opd';   
+        $role='pasien';   
         $user->assignRole($role);               
         
         \App\Models\Setting\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
-                                        'message' => 'Menambah user OPD('.$user->username.') berhasil'
+                                        'message' => 'Menambah user Pasien('.$user->username.') berhasil'
                                     ]);
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
                                     'user'=>$user,                                    
-                                    'message'=>'Data user OPD berhasil disimpan.'
+                                    'message'=>'Data user Pasien berhasil disimpan.'
                                 ],200); 
 
     }
@@ -94,7 +94,7 @@ class UsersOPDController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('USERS OPD_UPDATE');
+        $this->hasPermissionTo('USERS PASIEN_UPDATE');
 
         $user = User::find($id);
         if ($request->has('dialog'))
@@ -117,14 +117,14 @@ class UsersOPDController extends Controller {
             \App\Models\Setting\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data user OPD('.$user->username.') berhasil'
+                                                        'message' => 'Mengubah data user Pasien('.$user->username.') berhasil'
                                                     ]);
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
                                     'user'=>$user,      
-                                    'message'=>'Data user OPD '.$user->username.' berhasil diubah.'
+                                    'message'=>'Data user Pasien '.$user->username.' berhasil diubah.'
                                 ],200); 
         }
         else
@@ -136,13 +136,13 @@ class UsersOPDController extends Controller {
             \App\Models\Setting\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data hak akses user OPD ('.$user->username.') dengan OPD = '.$user->payload.' berhasil'
+                                                        'message' => 'Mengubah data hak akses user Pasien ('.$user->username.') dengan Pasien = '.$user->payload.' berhasil'
                                                     ]);
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
                                     'user'=>$user,                                    
-                                    'message' => 'Mengubah data hak akses user OPD ('.$user->username.') dengan OPD = '.$user->payload.' berhasil'
+                                    'message' => 'Mengubah data hak akses user Pasien ('.$user->username.') dengan Pasien = '.$user->payload.' berhasil'
                                 ],200); 
             
         }
@@ -155,7 +155,7 @@ class UsersOPDController extends Controller {
      */
     public function destroy(Request $request,$id)
     { 
-        $this->hasPermissionTo('USERS OPD_DESTROY');
+        $this->hasPermissionTo('USERS PASIEN_DESTROY');
 
         $user = User::where('isdeleted','t')
                     ->find($id); 
@@ -168,13 +168,13 @@ class UsersOPDController extends Controller {
             \App\Models\Setting\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 
                                                                 'user_id' => $this->guard()->user()->id, 
-                                                                'message' => 'Menghapus user OPD('.$username.') berhasil'
+                                                                'message' => 'Menghapus user Pasien('.$username.') berhasil'
                                                             ]);
         }
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"User OPD ($username) berhasil dihapus"
+                                    'message'=>"User Pasien ($username) berhasil dihapus"
                                 ],200);         
                   
     }

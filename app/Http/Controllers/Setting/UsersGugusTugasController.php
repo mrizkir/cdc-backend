@@ -9,7 +9,7 @@ use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
-class UsersBapelitbangController extends Controller {         
+class UsersGugusTugasController extends Controller {         
     /**
      * Show the form for creating a new resource.
      *
@@ -17,13 +17,13 @@ class UsersBapelitbangController extends Controller {
      */
     public function index(Request $request)
     {           
-        $this->hasPermissionTo('USERS BAPELITBANG_BROWSE');
-        $data = User::role('bapelitbang')->get();
+        $this->hasPermissionTo('USERS GUGUSTUGAS_BROWSE');
+        $data = User::role('gugustugas')->get();
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
                                 'users'=>$data,
-                                'message'=>'Fetch data users bapelitbang berhasil diperoleh'
+                                'message'=>'Fetch data users gugustugas berhasil diperoleh'
                             ],200);  
     }    
     /**
@@ -53,20 +53,20 @@ class UsersBapelitbangController extends Controller {
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
-        $role='bapelitbang';   
+        $role='gugustugas';   
         $user->assignRole($role);               
         
         \App\Models\Setting\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
-                                        'message' => 'Menambah user bapelitbang ('.$user->username.') berhasil'
+                                        'message' => 'Menambah user gugustugas ('.$user->username.') berhasil'
                                     ]);
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
                                     'user'=>$user,                                    
-                                    'message'=>'Data user bapelitbang berhasil disimpan.'
+                                    'message'=>'Data user gugustugas berhasil disimpan.'
                                 ],200); 
 
     }    
@@ -100,7 +100,7 @@ class UsersBapelitbangController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'message'=>'Permission user bapelitbang '.$user->username.' berhasil disimpan.'
+                                    'message'=>'Permission user gugustugas '.$user->username.' berhasil disimpan.'
                                 ],200); 
     }
     /**
@@ -129,7 +129,7 @@ class UsersBapelitbangController extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',
-                                    'message'=>'Role user bapelitbang '.$user->username.' berhasil di revoke.'
+                                    'message'=>'Role user gugustugas '.$user->username.' berhasil di revoke.'
                                 ],200); 
     }
     /**
@@ -174,14 +174,14 @@ class UsersBapelitbangController extends Controller {
         \App\Models\Setting\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data user bapelitbang ('.$user->username.') berhasil'
+                                                        'message' => 'Mengubah data user gugustugas ('.$user->username.') berhasil'
                                                     ]);
 
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
                                     'user'=>$user,                                    
-                                    'message'=>'Data user bapelitbang '.$user->username.' berhasil diubah.'
+                                    'message'=>'Data user gugustugas '.$user->username.' berhasil diubah.'
                                 ],200); 
     }
     /**
@@ -227,13 +227,13 @@ class UsersBapelitbangController extends Controller {
             \App\Models\Setting\ActivityLog::log($request,[
                                                                 'object' => $this->guard()->user(), 
                                                                 'user_id' => $this->guard()->user()->id, 
-                                                                'message' => 'Menghapus user bapelitbang ('.$username.') berhasil'
+                                                                'message' => 'Menghapus user gugustugas ('.$username.') berhasil'
                                                             ]);
         }
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"User bapelitbang ($username) berhasil dihapus"
+                                    'message'=>"User gugus tugas ($username) berhasil dihapus"
                                 ],200);         
                   
     }
