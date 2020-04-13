@@ -3,7 +3,7 @@
 $router->get('/', function () use ($router) {
     $res=[
             'success'=>true,
-            'message'=>'SIMONEV API Micro-Service',
+            'message'=>'BINTAN-CDC (Covid-19 Data Center) API Micro-Service',
             'payload'=>[]
         ];
 
@@ -12,9 +12,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix'=>'v1'], function () use ($router)
 {
     $router->post('/dashboard/front',['uses'=>'DashboardController@frontindex','as'=>'dashboard.frontindex']);
-    $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);
-    $router->get('/dmaster/ta/all',['uses'=>'DMaster\TAController@all','as'=>'ta.all']);
-
+    $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);    
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
