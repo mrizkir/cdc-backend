@@ -51,20 +51,18 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/setting/usersgugustugas',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@index','as'=>'usersgugustugas.index']);
     $router->post('/setting/usersgugustugas/store',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@store','as'=>'usersgugustugas.store']);
     $router->put('/setting/usersgugustugas/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@update','as'=>'usersgugustugas.update']);
-    $router->put('/setting/usersgugustugas/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@update','as'=>'usersgugustugas.update']);
     $router->delete('/setting/usersgugustugas/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@destroy','as'=>'usersgugustugas.destroy']);    
     
     //setting - users petugas
     $router->get('/setting/userspetugas',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@index','as'=>'userspetugas.index']);
     $router->post('/setting/userspetugas/store',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@store','as'=>'userspetugas.store']);
     $router->put('/setting/userspetugas/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@update','as'=>'userspetugas.update']);
-    $router->put('/setting/userspetugas/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@update','as'=>'userspetugas.update']);
     $router->delete('/setting/userspetugas/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@destroy','as'=>'userspetugas.destroy']);    
 
     //setting - users pasien
     $router->get('/setting/userspasien',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@index','as'=>'userspasien.index']);
     $router->post('/setting/userspasien/store',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@store','as'=>'userspasien.store']);
-    $router->put('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@update','as'=>'userspasien.update']);
+    $router->get('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@show','as'=>'userspasien.show']);
     $router->put('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@update','as'=>'userspasien.update']);
     $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
   

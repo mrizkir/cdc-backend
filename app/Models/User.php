@@ -22,7 +22,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password', 'theme', 'foto', 'active', 'isdeleted', 'locked', 'payload',
+        'username', 
+        'password', 
+        'name', 
+        'nomor_hp', 
+        'alamat', 
+        'PmKecamatanID', 
+        'Nm_Kecamatan', 
+        'PmDesaID', 
+        'Nm_Desa', 
+        'email', 
+        'foto',         
+        'active', 
+        'isdeleted', 
+        'locked', 
+        'payload',
     ];
 
     /**
@@ -31,7 +45,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password'
     ];
     
     /**
@@ -59,9 +73,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
-    }
-    public function OPD  ()
-    {
-        return $this->hasMany('App\UserOPD');
-    }
+    }   
 }

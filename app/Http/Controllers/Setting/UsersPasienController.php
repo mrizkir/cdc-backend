@@ -34,19 +34,33 @@ class UsersPasienController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('USERS PASIEN_STORE');
+        // $this->hasPermissionTo('USERS PASIEN_STORE');
+
         $this->validate($request, [
             'username'=>'required|string|unique:users',
-            'name'=>'required',                        
             'password'=>'required',            
+            'name'=>'required',                
+            'nomor_hp'=>'required',                
+            'alamat'=>'required',            
+            'PmKecamatanID'=>'required',            
+            'Nm_Kecamatan'=>'required',            
+            'PmDesaID'=>'required',            
+            'Nm_Desa'=>'required',            
+            'foto'=>'required',               
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
-            'name'=>$request->input('name'),
-            'email'=>$request->input('email'),
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),            
-            'payload'=>'{}',            
+            'name'=>$request->input('name'),
+            'nomor_hp'=>$request->input('nomor_hp'),
+            'alamat'=>$request->input('alamat'),
+            'PmKecamatanID'=>$request->input('PmKecamatanID'),
+            'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
+            'PmDesaID'=>$request->input('PmDesaID'),
+            'Nm_Desa'=>$request->input('Nm_Desa'),
+            'foto'=>$request->input('foto'),
+            'payload'=>$request->input('payload'),            
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
@@ -68,6 +82,36 @@ class UsersPasienController extends Controller {
 
     }
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // $this->hasPermissionTo('RKA MURNI_SHOW');
+        $user = User::find($id);
+
+        if (is_null($user))
+        {
+            return Response()->json([
+                                'status'=>0,
+                                'pid'=>'destroy',                
+                                'message'=>"Data Pasien tidak ditemukan"
+                            ],422);   
+        }
+        else
+        {
+
+            return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'user'=>$user,                             
+                                'message'=>'Fetch data pasien berhasil diperoleh'
+                            ],200); 
+        }            
+    }
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,20 +123,43 @@ class UsersPasienController extends Controller {
         // $this->hasPermissionTo('USERS PASIEN_UPDATE');
 
         $user = User::find($id);
-        if ($request->has('dialog'))
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data Pasien tidak ditemukan"
+                                ],422);         
+        }
+        else
         {
             $this->validate($request, [
-                                        'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
-                                        'name'=>'required',            
-                                        'email'=>'required|string|email|unique:users,email,'.$id              
-                                    ]); 
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
+                                'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
+                                'name'=>'required',                
+                                'nomor_hp'=>'required',                
+                                'alamat'=>'required',            
+                                'PmKecamatanID'=>'required',            
+                                'Nm_Kecamatan'=>'required',            
+                                'PmDesaID'=>'required',            
+                                'Nm_Desa'=>'required',            
+                                'foto'=>'required',               
+                            ]); 
+            
             $user->username = $request->input('username');
-            $user->theme = $request->input('theme');
             if (!empty(trim($request->input('password')))) {
                 $user->password = Hash::make($request->input('password'));
-            }    
+            } 
+            $user->name = $request->input('name');
+            $user->nomor_hp = $request->input('nomor_hp');
+            $user->alamat = $request->input('alamat');
+            $user->email = $request->input('email');
+            $user->PmKecamatanID=$request->input('PmKecamatanID');
+            $user->Nm_Kecamatan=$request->input('Nm_Kecamatan');
+            $user->PmDesaID=$request->input('PmDesaID');
+            $user->Nm_Desa=$request->input('Nm_Desa');
+            $user->foto=$request->input('foto');
+            $user->payload=$request->input('payload');
             $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $user->save();
 
@@ -108,25 +175,7 @@ class UsersPasienController extends Controller {
                                     'user'=>$user,      
                                     'message'=>'Data user Pasien '.$user->username.' berhasil diubah.'
                                 ],200); 
-        }
-        else
-        {   
-            $user->payload=$request->input('payload');
-
-            $user->save();
-
-            \App\Models\Setting\ActivityLog::log($request,[
-                                                        'object' => $this->guard()->user(), 
-                                                        'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data hak akses user Pasien ('.$user->username.') dengan Pasien = '.$user->payload.' berhasil'
-                                                    ]);
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
-                                    'user'=>$user,                                    
-                                    'message' => 'Mengubah data hak akses user Pasien ('.$user->username.') dengan Pasien = '.$user->payload.' berhasil'
-                                ],200); 
-            
+        
         }
     }
      /**
@@ -141,23 +190,33 @@ class UsersPasienController extends Controller {
 
         $user = User::where('isdeleted','t')
                     ->find($id); 
-
-        if ($user instanceof User)
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data Pasien tidak ditemukan."
+                                ],422);         
+        }
+        else
         {
             $username=$user->username;
             $user->delete();
 
             \App\Models\Setting\ActivityLog::log($request,[
-                                                                'object' => $this->guard()->user(), 
-                                                                'user_id' => $this->guard()->user()->id, 
-                                                                'message' => 'Menghapus user Pasien('.$username.') berhasil'
-                                                            ]);
-        }
-        return Response()->json([
+                                                            'object' => $this->guard()->user(), 
+                                                            'user_id' => $this->guard()->user()->id, 
+                                                            'message' => 'Menghapus user Pasien('.$username.') berhasil'
+                                                        ]);
+            
+            return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
                                     'message'=>"User Pasien ($username) berhasil dihapus"
                                 ],200);         
+        }
+        
                   
     }
 }

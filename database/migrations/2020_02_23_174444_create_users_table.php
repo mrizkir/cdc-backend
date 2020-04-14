@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');            
             $table->string('name');
+            $table->string('nomor_hp',19)->nullable();
             $table->string('alamat')->nullable();
             $table->string('PmKecamatanID',19)->nullable();
             $table->string('Nm_Kecamatan')->nullable();
@@ -29,7 +30,6 @@ class CreateUsersTable extends Migration
             $table->boolean('active')->default(1);
             $table->boolean('isdeleted')->default(1);
             $table->boolean('locked')->default(0);                          
-            $table->rememberToken();
             $table->string('payload')->nullable();
             $table->timestamps();
             
