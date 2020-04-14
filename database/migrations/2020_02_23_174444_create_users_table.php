@@ -18,10 +18,14 @@ class CreateUsersTable extends Migration
             $table->increments('id');            
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('NIK',16)->nullable();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();        
-            $table->string('theme')->default('default');
+            $table->string('alamat')->nullable();
+            $table->string('PmKecamatanID',19)->nullable();
+            $table->string('Nm_Kecamatan')->nullable();
+            $table->string('PmDesaID',19)->nullable();
+            $table->string('Nm_Desa')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->string('foto')->default('storage/images/users/no_photo.png');
             $table->boolean('active')->default(1);
             $table->boolean('isdeleted')->default(1);

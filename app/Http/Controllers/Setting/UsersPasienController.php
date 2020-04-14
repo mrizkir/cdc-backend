@@ -17,22 +17,8 @@ class UsersPasienController extends Controller {
      */
     public function index(Request $request)
     {           
-        $this->hasPermissionTo('USERS PASIEN_BROWSE');
-        $user=$this->guard()->user();
-        if ($user->hasRole(['superadmin','petugas']))
-        {
-            $data = User::role('pasien')->get();
-        }       
-        else if ($user->hasRole('pasien'))
-        {
-            $daftar_pasien=json_decode($user->payload,true);
-            $data = User::role('pasien')->where(function ($query) use ($daftar_pasien){
-                for ($i = 0; $i < count($daftar_pasien); $i++){
-                    $query->orwhere('payload', 'ilike',  '%' . $daftar_pasien[$i] .'%');
-                 }
-             })->get();
-        }
-        
+        // $this->hasPermissionTo('USERS PASIEN_BROWSE');        
+        $data = User::role('pasien')->get();
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -50,21 +36,17 @@ class UsersPasienController extends Controller {
     {
         $this->hasPermissionTo('USERS PASIEN_STORE');
         $this->validate($request, [
-            'name'=>'required',
-            'email'=>'required|string|email|unique:users',
             'username'=>'required|string|unique:users',
-            'password'=>'required',
-            'payload'=>'required',
+            'name'=>'required',                        
+            'password'=>'required',            
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
             'name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'username'=> $request->input('username'),
-            'password'=>Hash::make($request->input('password')),
-            'email_verified_at'=>\Carbon\Carbon::now(),
-            'payload'=>$request->input('payload'),
-            'theme'=>$request->input('theme'),
+            'password'=>Hash::make($request->input('password')),            
+            'payload'=>'{}',            
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
@@ -94,7 +76,7 @@ class UsersPasienController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('USERS PASIEN_UPDATE');
+        // $this->hasPermissionTo('USERS PASIEN_UPDATE');
 
         $user = User::find($id);
         if ($request->has('dialog'))
@@ -155,7 +137,7 @@ class UsersPasienController extends Controller {
      */
     public function destroy(Request $request,$id)
     { 
-        $this->hasPermissionTo('USERS PASIEN_DESTROY');
+        // $this->hasPermissionTo('USERS PASIEN_DESTROY');
 
         $user = User::where('isdeleted','t')
                     ->find($id); 

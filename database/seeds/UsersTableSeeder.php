@@ -20,9 +20,7 @@ class UsersTableSeeder extends Seeder
             'username'=>'admin',
             'password'=>Hash::make('1234'),                
             'name'=>'Mochammad Rizki Romdoni',                
-            'email'=>'support@yacanet.com',                
-            'theme'=>'default',
-            'email_verified_at'=>Carbon::now(),
+            'email'=>'support@yacanet.com',               
             'isdeleted'=>'false',
             'created_at'=>Carbon::now(),
             'updated_at'=>Carbon::now()
