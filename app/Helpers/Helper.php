@@ -27,29 +27,7 @@ class Helper {
         }else{
             return Helper::$Bulan[$idx];
         }
-    }
-    
-    /**
-     * digunakan untuk mendapatkan bulan
-     */
-    public static function getBulanM($idx=null) {
-        if ($idx === null) {
-            return Helper::$BulanM;
-        }else{
-            return Helper::$BulanM[$idx];
-        }
-    }
-    
-    /**
-     * digunakan untuk mendapatkan bulan
-     */
-    public static function getBulanP($idx=null) {
-        if ($idx === null) {
-            return Helper::$BulanP;
-        }else{
-            return Helper::$BulanP[$idx];
-        }
-    }
+    }    
     /**
      * digunakan untuk memformat tanggal
      * @param type $format
@@ -104,5 +82,10 @@ class Helper {
             $result=number_format((float)($pembilang/$penyebut),$dec_sep);
         }
         return $result;
-	}    
+    }   
+
+    public static function public_path($path = null)
+    {
+        return rtrim(app()->basePath('storage/app/public/' . $path), '/');
+    } 
 }

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
+use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller {         
@@ -260,5 +261,53 @@ class UsersController extends Controller {
                                     'message'=>"User ($username) berhasil dihapus"
                                 ],200);         
                   
+    }
+
+    public function uploadfoto (Request $request,$id)
+    {
+        $user = User::find($id); 
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'store',                
+                                    'message'=>"Data Pasien tidak ditemukan."
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [        
+                'foto'=>'required',                          
+            ]);
+            $username=$user->username;
+            $foto = $request->file('foto');
+            $mime_type=$foto->getMimeType();
+            if ($mime_type=='image/png' && $mime_type=='image/jpeg')
+            {
+                $folder=Helper::public_path('images/users/');
+                $file_name=uniqid('img').".".$foto->getClientOriginalExtension();
+                $foto->move($folder,$file_name);
+                $user->foto="storage/images/users/$file_name";
+                $user->save();
+
+                return Response()->json([
+                                            'status'=>0,
+                                            'pid'=>'store',
+                                            'user'=>$user,                
+                                            'message'=>"Foto User ($username)  berhasil diupload"
+                                        ],200);    
+            }
+            else
+            {
+                return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'store',
+                                        'message'=>"Extensi file yang diupload bukan jpg atau png."
+                                    ],422); 
+                
+
+            }
+        }
     }
 }

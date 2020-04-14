@@ -40,12 +40,13 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //setting - users
     $router->get('/setting/users',['middleware'=>['role:superadmin'],'uses'=>'Setting\UsersController@index','as'=>'users.index']);
     $router->post('/setting/users/store',['middleware'=>['role:superadmin'],'uses'=>'Setting\UsersController@store','as'=>'users.store']);
+    $router->post('/setting/users/uploadfoto/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersController@uploadfoto','as'=>'users.uploadfoto']);
     $router->post('/setting/users/storeuserpermissions',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersController@storeuserpermissions','as'=>'users.storeuserpermissions']);
     $router->post('/setting/users/revokeuserpermissions',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersController@revokeuserpermissions','as'=>'users.revokeuserpermissions']);
     $router->put('/setting/users/{id}',['middleware'=>['role:superadmin'],'uses'=>'Setting\UsersController@update','as'=>'users.update']);
     $router->delete('/setting/users/{id}',['middleware'=>['role:superadmin'],'uses'=>'Setting\UsersController@destroy','as'=>'users.destroy']);    
     $router->get('/setting/users/{id}/permission',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersController@userpermissions','as'=>'users.permission']);    
-    $router->get('/setting/users/{id}/petugas',['middleware'=>['role:superadmin|gugustugas|petugas|pptk'],'uses'=>'Setting\UsersController@userpetugas','as'=>'users.petugas']);    
+    $router->get('/setting/users/{id}/petugas',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersController@userpetugas','as'=>'users.petugas']);    
     
     //setting - users gugustugas
     $router->get('/setting/usersgugustugas',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersGugusTugasController@index','as'=>'usersgugustugas.index']);
