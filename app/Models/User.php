@@ -33,6 +33,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'Nm_Desa', 
         'email', 
         'foto',         
+        'status_pasien', 
         'active', 
         'isdeleted', 
         'locked', 

@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('Nm_Desa')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('foto')->default('storage/images/users/no_photo.png');
+            $table->tinyInteger('status_pasien')->default(3);
             $table->boolean('active')->default(1);
             $table->boolean('isdeleted')->default(1);
             $table->boolean('locked')->default(0);                          

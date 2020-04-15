@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
+use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
 
 class UsersPasienController extends Controller {         
@@ -174,6 +175,57 @@ class UsersPasienController extends Controller {
                                     'pid'=>'update',
                                     'user'=>$user,      
                                     'message'=>'Data user Pasien '.$user->username.' berhasil diubah.'
+                                ],200); 
+        
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatestatus(Request $request, $id)
+    {
+        // $this->hasPermissionTo('USERS PASIEN_UPDATE');
+
+        $user = User::find($id);
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data Pasien tidak ditemukan"
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [
+                                'status_pasien'=>['required'],                                                        
+                            ]); 
+
+            $status_pasien=$request->input('status_pasien');
+            $status_lama = Helper::getStatusPasien($user->status_pasien);
+
+            $user->status_pasien=$status_pasien;
+            $payload=json_decode($user->payload,true);
+            $payload['status_pasien']=Helper::getStatusPasien($status_pasien);
+            $user->payload=json_encode($payload);
+            $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+            $user->save();
+            \App\Models\Setting\ActivityLog::log($request,[
+                                                        'object' => $this->guard()->user(), 
+                                                        'user_id' => $this->guard()->user()->id, 
+                                                        'message' => 'Mengubah status Pasien ('.$user->username.') dari '.$status_lama.' menjadi ' . Helper::getStatusPasien($status_pasien).' berhasil'
+                                                    ]);
+
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',
+                                    'user'=>$user,      
+                                    'message' => 'Mengubah status Pasien ('.$user->username.') dari '.$status_lama.' menjadi ' . Helper::getStatusPasien($status_pasien).' berhasil'
                                 ],200); 
         
         }
