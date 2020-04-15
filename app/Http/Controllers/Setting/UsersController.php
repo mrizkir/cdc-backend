@@ -221,17 +221,6 @@ class UsersController extends Controller {
         }
     }
      /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function uploadphotoprofile (Request $request)
-    {
-        
-    }
-     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -283,7 +272,7 @@ class UsersController extends Controller {
             $username=$user->username;
             $foto = $request->file('foto');
             $mime_type=$foto->getMimeType();
-            if ($mime_type=='image/png' && $mime_type=='image/jpeg')
+            if ($mime_type=='image/png' || $mime_type=='image/jpeg')
             {
                 $folder=Helper::public_path('images/users/');
                 $file_name=uniqid('img').".".$foto->getClientOriginalExtension();
