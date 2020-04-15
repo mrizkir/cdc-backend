@@ -19,7 +19,14 @@ class UsersPasienController extends Controller {
     public function index(Request $request)
     {           
         // $this->hasPermissionTo('USERS PASIEN_BROWSE');        
-        $data = User::role('pasien')->get();
+        $data = User::role('pasien')
+                ->select(\DB::raw('id,username,name,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien",\'\' AS nama_status,"payload","created_at","updated_at"'))
+                ->get();
+
+        $data->transform(function ($item,$key){
+            $item->nama_status=Helper::getStatusPasien($item->status_pasien);
+            return $item;
+        });
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
