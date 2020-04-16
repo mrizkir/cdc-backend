@@ -21,7 +21,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
     //location
 
-    //digunakan untuk mendapatkan lokasi terakhir seluruh pasie
+    //digunakan untuk mendapatkan lokasi terakhir seluruh pasien
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
 
     //authentication    
