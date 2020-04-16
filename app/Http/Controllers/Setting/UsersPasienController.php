@@ -38,21 +38,27 @@ class UsersPasienController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function lokasiterakhir(Request $request,$id)
+    public function lokasiterakhir(Request $request)
     {           
         // $this->hasPermissionTo('USERS PASIEN_BROWSE');  
-        $lokasiterakhir=[];      
-        if ($id == 'all')
+        $this->validate($request, [
+                        'mode'=>'required',
+                        'id'=>'required',            
+            ]
+        );
+        switch($mode)
         {
-            $data = \DB::table('v_lokasi_terakhir')
+            default :
+                $data = \DB::table('v_lokasi_terakhir')
                         ->get();
-
-            $lokasiterakhir=$data;
         }
+        
+
+        
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
-                                'lokasiterakhir'=>$lokasiterakhir,
+                                'lokasiterakhir'=>$data,
                                 'message'=>'Fetch data lokasi terakhir berhasil diperoleh'
                             ],200);  
     }    
