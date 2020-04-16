@@ -20,8 +20,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/dashboard/admin',['uses'=>'DashboardController@adminindex','as'=>'dashboard.adminindex']);
 
     //location
-    
-    //digunakan untuk mendapatkan lokasi terakhir seluruh pasien
+
+    //digunakan untuk mendapatkan lokasi terakhir seluruh pasie
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
 
     //authentication    
