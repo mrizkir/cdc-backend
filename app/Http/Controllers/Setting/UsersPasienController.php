@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
+use App\Models\Setting\HistoryPasienModel;
 use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
 
@@ -75,12 +76,21 @@ class UsersPasienController extends Controller {
         $role='pasien';   
         $user->assignRole($role);               
         
+        HistoryPasienModel::create([
+            'user_id'=>$user->id,
+            'id_status'=>3,
+            'nama_status'=>Helper::getStatusPasien(3),
+            'Descr'=>'Awal input, status secara default '.Helper::getStatusPasien(3),
+            'created_at'=>$now, 
+            'updated_at'=>$now
+        ]);
+
         \App\Models\Setting\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
                                         'user_id' => $this->guard()->user()->id, 
                                         'message' => 'Menambah user Pasien('.$user->username.') berhasil'
                                     ]);
-
+            
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',

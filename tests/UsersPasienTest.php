@@ -53,7 +53,17 @@ class UsersPasienTest extends TestCase
             ],
             ['Authorization' => "Bearer $token"]
         );      
+        $content = json_decode($response->getContent(),true);        
+        if ($response->status()==500)
+        {
+            echo $response->getContent();
+        }
+        else
+        {
+            echo $content['message'];
+        }
         $this->assertEquals(200, $response->status());
+        
     } 
     public function testPasienShow()
     {
