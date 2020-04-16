@@ -25,12 +25,30 @@ class UsersPasienController extends Controller {
                 ->select(\DB::raw('id,username,name,tempat_lahir,tanggal_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
                 ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
                 ->get();
-     
+        
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
                                 'userspasien'=>$data,
                                 'message'=>'Fetch data users Pasien berhasil diperoleh'
+                            ],200);  
+    }    
+    /**
+     * lokasi terakhir
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lokasiterkahir(Request $request)
+    {           
+        // $this->hasPermissionTo('USERS PASIEN_BROWSE');        
+        $data = \DB::table('v_lokasi_terakhir')
+                ->get();
+        
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'lokasiterakhir'=>$data,
+                                'message'=>'Fetch data lokasi terakhir berhasil diperoleh'
                             ],200);  
     }    
     /**
@@ -109,10 +127,13 @@ class UsersPasienController extends Controller {
     public function show($id)
     {
         // $this->hasPermissionTo('RKA MURNI_SHOW');
+
         $user = User::select(\DB::raw('id,username,name,tempat_lahir,tanggal_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
                     ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
                     ->find($id);
-
+        
+        
+        
         if (is_null($user))
         {
             return Response()->json([
@@ -122,12 +143,22 @@ class UsersPasienController extends Controller {
                             ],422);   
         }
         else
-        {
+        {  
+
+            $history=HistoryPasienModel::where('user_id',$user->id)
+                                        ->get();
+
+            $lokasi=LokasiPasienModel::where('user_id',$user->id)  
+                                        ->orderBy('id','DESC')
+                                        ->limit(5)                                      
+                                        ->get();
 
             return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
-                                'user'=>$user,                             
+                                'user'=>$user,         
+                                'history'=>$history,
+                                'lokasi'=>$lokasi,                    
                                 'message'=>'Fetch data pasien berhasil diperoleh'
                             ],200); 
         }            

@@ -61,12 +61,22 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/setting/userspetugas/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPetugasController@destroy','as'=>'userspetugas.destroy']);    
 
     //setting - users pasien
-    $router->get('/setting/userspasien',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@index','as'=>'userspasien.index']);
+
+    //digunakan untuk mendapatkan seluruh pasien
+    $router->get('/setting/userspasien',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@index','as'=>'userspasien.index']);    
+    //digunakan untuk menyimpan pasien baru
     $router->post('/setting/userspasien/store',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@store','as'=>'userspasien.store']);
+    //digunakan untuk mendapatkan detail user sekaligus riwayat sakit yang disimpan di array [history] dan 5 posisi terakhir disimpan di array [lokasi]
     $router->get('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas|pasien'],'uses'=>'Setting\UsersPasienController@show','as'=>'userspasien.show']);
+    //digunakan mengupdate data diri pasien
     $router->put('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@update','as'=>'userspasien.update']);
+    //digunakan mengupdate status pasien, daftar kode status lihat di file app\Helpers\Helper
     $router->put('/setting/userspasien/updatestatus/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@updatestatus','as'=>'userspasien.updatestatus']);
+    //digunakan menghapus pasien
     $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
+    //digunakan menambah lokasi
     $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
+    //digunakan untuk mendapatkan lokasi terakhir seluruh pasien
+    $router->get('/setting/userspasien/lokasiterkahir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterkahir','as'=>'userspasien.lokasiterkahir']);    
   
 });
