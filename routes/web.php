@@ -19,6 +19,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 {   
     $router->post('/dashboard/admin',['uses'=>'DashboardController@adminindex','as'=>'dashboard.adminindex']);
 
+    //location
+    
+    //digunakan untuk mendapatkan lokasi terakhir seluruh pasien
+    $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
+
     //authentication    
     $router->post('/auth/logout',['uses'=>'AuthController@logout','as'=>'auth.logout']);
     $router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
@@ -76,7 +81,5 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
     //digunakan menambah lokasi
     $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
-    //digunakan untuk mendapatkan lokasi terakhir seluruh pasien
-    $router->post('/setting/userspasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'userspasien.lokasiterakhir']);    
-  
+    
 });
