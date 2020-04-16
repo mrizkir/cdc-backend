@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
 use App\Models\Setting\HistoryPasienModel;
+use App\Models\Setting\LokasiPasienModel;
 use App\Helpers\Helper;
 use Spatie\Permission\Models\Role;
 
@@ -108,7 +109,7 @@ class UsersPasienController extends Controller {
     public function show($id)
     {
         // $this->hasPermissionTo('RKA MURNI_SHOW');
-        $user = User::select(\DB::raw('id,username,name,tempat_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
+        $user = User::select(\DB::raw('id,username,name,tempat_lahir,tanggal_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
                     ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
                     ->find($id);
 
@@ -219,7 +220,7 @@ class UsersPasienController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'destroy',                
+                                    'pid'=>'update',                
                                     'message'=>"Data Pasien tidak ditemukan"
                                 ],422);         
         }
@@ -238,6 +239,16 @@ class UsersPasienController extends Controller {
             $user->payload=json_encode($payload);
             $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $user->save();
+
+            HistoryPasienModel::create([
+                                        'user_id'=>$user->id,
+                                        'id_status'=>$status_pasien,
+                                        'nama_status'=>Helper::getStatusPasien($status_pasien),
+                                        'Descr'=>'Status berubah menjadi '.Helper::getStatusPasien($status_pasien),
+                                        'created_at'=>$now, 
+                                        'updated_at'=>$now
+                                    ]);
+    
             \App\Models\Setting\ActivityLog::log($request,[
                                                         'object' => $this->guard()->user(), 
                                                         'user_id' => $this->guard()->user()->id, 
@@ -249,6 +260,52 @@ class UsersPasienController extends Controller {
                                     'pid'=>'update',
                                     'user'=>$user,      
                                     'message' => 'Mengubah status Pasien ('.$user->username.') dari '.$status_lama.' menjadi ' . Helper::getStatusPasien($status_pasien).' berhasil'
+                                ],200); 
+        
+        }
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function tambahlokasi(Request $request, $id)
+    {
+        // $this->hasPermissionTo('USERS PASIEN_UPDATE');
+
+        $user = User::find($id);
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'store',                
+                                    'message'=>"Data Pasien tidak ditemukan"
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [
+                                'lat'=>['required'],                                                        
+                                'lng'=>['required'],                                                        
+                            ]); 
+
+            
+            $lokasi=LokasiPasienModel::create([
+                                    'user_id'=>$user->id,
+                                    'lat'=>$request->input('lat'),
+                                    'lng'=>$request->input('lng'),                                    
+                                    'created_at'=>$now, 
+                                    'updated_at'=>$now
+                                ]);
+                                
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'lokasi'=>$lokasi,      
+                                    'message' => 'Menambah Lokasi Koordinate Pasien berhasil'
                                 ],200); 
         
         }

@@ -17,7 +17,7 @@ class CreatePasienLocationTable extends Migration
         Schema::create('pasien_location', function (Blueprint $table) {
             $table->increments('id');            
             $table->unsignedInteger('user_id');
-            $table->decimal('lat');            
+            $table->string('lat');            
             $table->string('lng');                        
             $table->timestamps();
 

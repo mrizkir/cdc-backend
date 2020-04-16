@@ -63,9 +63,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //setting - users pasien
     $router->get('/setting/userspasien',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@index','as'=>'userspasien.index']);
     $router->post('/setting/userspasien/store',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@store','as'=>'userspasien.store']);
-    $router->get('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@show','as'=>'userspasien.show']);
+    $router->get('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas|pasien'],'uses'=>'Setting\UsersPasienController@show','as'=>'userspasien.show']);
     $router->put('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@update','as'=>'userspasien.update']);
     $router->put('/setting/userspasien/updatestatus/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@updatestatus','as'=>'userspasien.updatestatus']);
     $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
+    $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas/pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
   
 });
