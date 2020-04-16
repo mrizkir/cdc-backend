@@ -20,13 +20,10 @@ class UsersPasienController extends Controller {
     {           
         // $this->hasPermissionTo('USERS PASIEN_BROWSE');        
         $data = User::role('pasien')
-                ->select(\DB::raw('id,username,name,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien",\'\' AS nama_status,"payload","created_at","updated_at"'))
+                ->select(\DB::raw('id,username,name,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
+                ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
                 ->get();
-
-        $data->transform(function ($item,$key){
-            $item->nama_status=Helper::getStatusPasien($item->status_pasien);
-            return $item;
-        });
+     
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -48,7 +45,8 @@ class UsersPasienController extends Controller {
             'username'=>'required|string|unique:users',
             'password'=>'required',            
             'name'=>'required',                
-            'nomor_hp'=>'required',                
+            'tempat_lahir'=>'required',                
+            'tanggal_lahir'=>'required',                
             'alamat'=>'required',            
             'PmKecamatanID'=>'required',            
             'Nm_Kecamatan'=>'required',            
@@ -61,6 +59,8 @@ class UsersPasienController extends Controller {
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),            
             'name'=>$request->input('name'),
+            'tempat_lahir'=>$request->input('tempat_lahir'),
+            'tanggal_lahir'=>$request->input('tanggal_lahir'),
             'nomor_hp'=>$request->input('nomor_hp'),
             'alamat'=>$request->input('alamat'),
             'PmKecamatanID'=>$request->input('PmKecamatanID'),
@@ -98,7 +98,9 @@ class UsersPasienController extends Controller {
     public function show($id)
     {
         // $this->hasPermissionTo('RKA MURNI_SHOW');
-        $user = User::find($id);
+        $user = User::select(\DB::raw('id,username,name,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
+                    ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
+                    ->find($id);
 
         if (is_null($user))
         {
@@ -136,7 +138,7 @@ class UsersPasienController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'destroy',                
+                                    'pid'=>'update',                
                                     'message'=>"Data Pasien tidak ditemukan"
                                 ],422);         
         }
@@ -144,7 +146,9 @@ class UsersPasienController extends Controller {
         {
             $this->validate($request, [
                                 'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
-                                'name'=>'required',                
+                                'name'=>'required',      
+                                'tempat_lahir'=>'required',                
+                                'tanggal_lahir'=>'required',                          
                                 'nomor_hp'=>'required',                
                                 'alamat'=>'required',            
                                 'PmKecamatanID'=>'required',            
@@ -159,6 +163,8 @@ class UsersPasienController extends Controller {
                 $user->password = Hash::make($request->input('password'));
             } 
             $user->name = $request->input('name');
+            $user->tempat_lahir = $request->input('tempat_lahir');
+            $user->tanggal_lahir = $request->input('tanggal_lahir');
             $user->nomor_hp = $request->input('nomor_hp');
             $user->alamat = $request->input('alamat');
             $user->email = $request->input('email');

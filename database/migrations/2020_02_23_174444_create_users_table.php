@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('password');            
             $table->string('name');
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nomor_hp',19)->nullable();
             $table->string('alamat')->nullable();
             $table->string('PmKecamatanID',19)->nullable();

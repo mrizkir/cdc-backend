@@ -12,7 +12,15 @@ class Helper {
     /*
      * nama bulan dalam bahasa indonesia
      */
-    private static $statusPasien = array(0=>'MENINGGAL', 1=>'POSITIF', 2=>'ORANG TANPA GEJALA','PASIEN DALAM PEMANTAUAN',3=>'ORANG DALAM PEMANTAUAN',4=>'SEMBUH',5=>'NEGATIF');
+    private static $statusPasien = [
+                                        0=>'MENINGGAL', 
+                                        1=>'POSITIF',
+                                        2=>'ORANG TANPA GEJALA',
+                                        3=>'PASIEN DALAM PEMANTAUAN',
+                                        4=>'ORANG DALAM PEMANTAUAN',
+                                        5=>'SEMBUH',
+                                        6=>'NEGATIF'
+                                    ];
     /**
      * digunakan untuk mendapatkan bulan
      */
