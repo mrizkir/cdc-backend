@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Helpers\Helper;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,7 @@ class AuthController extends Controller
     public function me()
     {
         $user = $this->guard()->user()->toArray();
+        $user['nama_status']=Helper::getSatusPasien($user['status_pasien']);
         $user['role']=$this->guard()->user()->getRoleNames()->toArray();
         $user['issuperadmin']=$this->guard()->user()->hasRole('superadmin');
         $user['permissions']=$this->guard()->user()->permissions->pluck('id','name')->toArray();
