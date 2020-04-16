@@ -17,6 +17,11 @@ class CreateVLokasiTerakhirView extends Migration
             SELECT 
                 users.id,
                 username,
+                users.name,
+                users."PmKecamatanID",
+                users."Nm_Kecamatan",
+                users."PmDesaID",
+                users."Nm_Desa",
                 users.status_pasien,
                 C.nama_status,
                 B.lat,
