@@ -78,6 +78,7 @@ class UsersPasienController extends Controller {
             'name'=>'required',                
             'tempat_lahir'=>'required',                
             'tanggal_lahir'=>'required',                
+            'nomor_hp'=>'required',                
             'alamat'=>'required',            
             'PmKecamatanID'=>'required',            
             'Nm_Kecamatan'=>'required',            
