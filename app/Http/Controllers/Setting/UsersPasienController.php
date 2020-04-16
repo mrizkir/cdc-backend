@@ -292,7 +292,7 @@ class UsersPasienController extends Controller {
                                 'lng'=>['required'],                                                        
                             ]); 
 
-            
+            $now = \Carbon\Carbon::now()->toDateTimeString();        
             $lokasi=LokasiPasienModel::create([
                                     'user_id'=>$user->id,
                                     'lat'=>$request->input('lat'),
