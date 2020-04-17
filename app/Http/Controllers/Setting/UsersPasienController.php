@@ -282,7 +282,9 @@ class UsersPasienController extends Controller {
             $user->payload=json_encode($payload);
             $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();
             $user->save();
-
+            
+            $now = \Carbon\Carbon::now()->toDateTimeString();        
+            
             HistoryPasienModel::create([
                                         'user_id'=>$user->id,
                                         'id_status'=>$status_pasien,
