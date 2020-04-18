@@ -14,7 +14,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
     $router->post('/dashboard/front',['uses'=>'DashboardController@frontindex','as'=>'dashboard.frontindex']);
     $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);    
 
-    $router->post('/pasien/lokasiterakhir',['uses'=>'Setting\UsersPasienController@lokasiterakhirpublik','as'=>'pasien.lokasiterakhirpublik']);    
+    $router->post('/pasien/lokasiterakhirpublik',['uses'=>'Setting\UsersPasienController@lokasiterakhirpublik','as'=>'pasien.lokasiterakhirpublik']);    
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
