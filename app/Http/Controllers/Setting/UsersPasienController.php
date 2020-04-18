@@ -76,7 +76,7 @@ class UsersPasienController extends Controller {
         {
             default :
                 $data = \DB::table('v_lokasi_terakhir')
-                        ->select(\DB::raw('PmKecamatanID','Nm_Kecamatan','PmDesaID','Nm_Desa','status_pasien','nama_status','lat','lng','updated_at'))
+                        ->select(\DB::raw('"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","status_pasien",nama_status,lat,lng,updated_at'))
                         ->get();
         }
         
