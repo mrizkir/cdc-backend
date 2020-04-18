@@ -53,6 +53,33 @@ class UsersPasienController extends Controller {
                         ->get();
         }
         
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'lokasiterakhir'=>$data,
+                                'message'=>'Fetch data lokasi terakhir berhasil diperoleh'
+                            ],200);  
+    }
+    /**
+     * lokasi terakhir
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lokasiterakhirpublik(Request $request)
+    {   
+        $this->validate($request, [
+                        'mode'=>'required',
+                        'id'=>'required',            
+            ]
+        );
+        switch($mode)
+        {
+            default :
+                $data = \DB::table('v_lokasi_terakhir')
+                        ->select(\DB::raw('PmKecamatanID','Nm_Kecamatan','PmDesaID','Nm_Desa','status_pasien','nama_status','lat','lng','updated_at'))
+                        ->get();
+        }
+        
 
         
         return Response()->json([
