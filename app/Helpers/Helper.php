@@ -47,6 +47,22 @@ class Helper {
         return $tanggal;
     }   
     /**
+     * digunakan untuk mendapatkan usia
+     */
+    public static function getUsia ($birthdate,$currentdate=null)
+    {
+        $age = $currentdate == null ? date('Y-m-d'):$usia;
+        $time_age = strtotime($age);
+        $time_tanggal = strtotime($currentdate);
+
+        $myage = date('Y',$time_age) - date('Y',$time_tanggal);
+        if (date('z',$time_age) < date('z',$time_tanggal)) 
+        {
+            $myage--;
+        }
+        return $myage;
+    }
+    /**
 	* digunakan untuk mem-format uang
 	*/
 	public static function formatUang ($uang=0,$decimal=2) {

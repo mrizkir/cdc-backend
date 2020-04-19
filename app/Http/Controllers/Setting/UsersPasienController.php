@@ -53,6 +53,11 @@ class UsersPasienController extends Controller {
                         ->get();
         }
         
+        $data->transform(function ($item,$key){
+            $item->usia=Helper::getUsia($item->tanggal_lahir);            
+            return $item;
+        });
+
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
@@ -165,13 +170,11 @@ class UsersPasienController extends Controller {
      */
     public function show($id)
     {
-        // $this->hasPermissionTo('RKA MURNI_SHOW');
+        // $this->hasPermissionTo('USERS PASIEN_SHOW');
 
         $user = User::select(\DB::raw('id,username,name,tempat_lahir,tanggal_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
                     ->join('tmStatusPasien','tmStatusPasien.id_status','users.status_pasien')
                     ->find($id);
-        
-        
         
         if (is_null($user))
         {
@@ -183,7 +186,7 @@ class UsersPasienController extends Controller {
         }
         else
         {  
-
+            
             $history=HistoryPasienModel::where('user_id',$user->id)
                                         ->get();
 
@@ -192,6 +195,8 @@ class UsersPasienController extends Controller {
                                         ->limit(5)                                      
                                         ->get();
 
+            $user=$user->toArray();
+            $user['usia']=Helper::getUsia($user['tanggal_lahir']);
             return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
