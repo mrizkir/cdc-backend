@@ -17,8 +17,8 @@ $router->group(['prefix'=>'v1'], function () use ($router)
     $router->post('/pasien/lokasiterakhirpublik',['uses'=>'Setting\UsersPasienController@lokasiterakhirpublik','as'=>'pasien.lokasiterakhirpublik']);    
 
     //kecamatan -data master
-    $router->get('/dmaster/kecamatan',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
-    $router->get('/dmaster/kecamatan/{id}/desa',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']);        
+    $router->get('/dmaster/kecamatan',['uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
+    $router->get('/dmaster/kecamatan/{id}/desa',['uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']);        
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
