@@ -110,6 +110,8 @@ class UsersPasienController extends Controller {
             'name'=>'required',                
             'tempat_lahir'=>'required',                
             'tanggal_lahir'=>'required',                
+            'jk'=>'required',                
+            'gol_darah'=>'required',                
             'nomor_hp'=>'required',                
             'alamat'=>'required',            
             'PmKecamatanID'=>'required',            
@@ -125,6 +127,8 @@ class UsersPasienController extends Controller {
             'name'=>$request->input('name'),
             'tempat_lahir'=>$request->input('tempat_lahir'),
             'tanggal_lahir'=>$request->input('tanggal_lahir'),
+            'jk'=>$request->input('jk'),
+            'gol_darah'=>$request->input('gol_darah'),
             'nomor_hp'=>$request->input('nomor_hp'),
             'alamat'=>$request->input('alamat'),
             'PmKecamatanID'=>$request->input('PmKecamatanID'),
@@ -234,7 +238,9 @@ class UsersPasienController extends Controller {
                                 'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
                                 'name'=>'required',      
                                 'tempat_lahir'=>'required',                
-                                'tanggal_lahir'=>'required',                          
+                                'tanggal_lahir'=>'required',     
+                                'jk'=>'required',                
+                                'gol_darah'=>'required',                     
                                 'nomor_hp'=>'required',                
                                 'alamat'=>'required',            
                                 'PmKecamatanID'=>'required',            
@@ -251,6 +257,8 @@ class UsersPasienController extends Controller {
             $user->name = $request->input('name');
             $user->tempat_lahir = $request->input('tempat_lahir');
             $user->tanggal_lahir = $request->input('tanggal_lahir');
+            $user->jk = $request->input('jk');
+            $user->gol_darah = $request->input('gol_darah');
             $user->nomor_hp = $request->input('nomor_hp');
             $user->alamat = $request->input('alamat');
             $user->email = $request->input('email');
