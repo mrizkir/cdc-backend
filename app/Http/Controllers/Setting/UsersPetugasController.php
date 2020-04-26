@@ -17,7 +17,8 @@ class UsersPetugasController extends Controller {
      */
     public function index(Request $request)
     {           
-        $this->hasPermissionTo('USERS PETUGAS_BROWSE');
+        // $this->hasPermissionTo('USERS PETUGAS_BROWSE');
+
         $user=$this->guard()->user();
         if ($user->hasRole(['superadmin','petugas']))
         {
@@ -48,7 +49,8 @@ class UsersPetugasController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->hasPermissionTo('USERS PETUGAS_STORE');
+        // $this->hasPermissionTo('USERS PETUGAS_STORE');
+        
         $this->validate($request, [
             'name'=>'required',
             'email'=>'required|string|email|unique:users',
@@ -94,7 +96,7 @@ class UsersPetugasController extends Controller {
      */
     public function update(Request $request, $id)
     {
-        $this->hasPermissionTo('USERS PETUGAS_UPDATE');
+        // $this->hasPermissionTo('USERS PETUGAS_UPDATE');
 
         $user = User::find($id);
         if ($request->has('dialog'))
@@ -155,7 +157,7 @@ class UsersPetugasController extends Controller {
      */
     public function destroy(Request $request,$id)
     { 
-        $this->hasPermissionTo('USERS PETUGAS_DESTROY');
+        // $this->hasPermissionTo('USERS PETUGAS_DESTROY');
 
         $user = User::where('isdeleted','t')
                     ->find($id); 
