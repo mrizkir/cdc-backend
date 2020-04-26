@@ -15,6 +15,10 @@ $router->group(['prefix'=>'v1'], function () use ($router)
     $router->post('/auth/login',['uses'=>'AuthController@login','as'=>'auth.login']);    
 
     $router->post('/pasien/lokasiterakhirpublik',['uses'=>'Setting\UsersPasienController@lokasiterakhirpublik','as'=>'pasien.lokasiterakhirpublik']);    
+
+    //kecamatan -data master
+    $router->get('/dmaster/kecamatan',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
+    $router->get('/dmaster/kecamatan/{id}/desa',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']);        
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
@@ -28,12 +32,6 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
     //digunakan untuk mendapatkan lokasi terakhir seluruh pasien -lokasi
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
-
-    //kecamatan -data master
-    $router->get('/dmaster/kecamatan',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
-    $router->get('/dmaster/kecamatan/{id}/desa',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']);        
-    
-    
 
     //setting - permissions
     $router->get('/setting/permissions',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\PermissionsController@index','as'=>'permissions.index']);
