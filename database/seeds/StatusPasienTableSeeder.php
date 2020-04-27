@@ -14,36 +14,36 @@ class StatusPasienTableSeeder extends Seeder
      */
     public function run()
     {       
-        \DB::statement('TRUNCATE "tmStatusPasien" RESTART IDENTITY CASCADE');
+        \DB::statement('TRUNCATE "pasien_status" RESTART IDENTITY CASCADE');
                 
-        \DB::table('tmStatusPasien')->insert([
+        \DB::table('pasien_status')->insert([
             [
                 'id_status'=>0,
-                'nama_status'=>'MENINGGAL',
+                'nama_status'=>'POSITIF MENINGGAL',
             ], 
             [
                 'id_status'=>1,
-                'name'=>'POSITIF'
+                'name'=>'POSITIF AKTIF'
             ],
             [ 
                 'id_status'=>2,
-                'nama_status'=>'ORANG TANPA GEJALA',
+                'nama_status'=>'POSITIF SEMBUH',
             ],
             [
                 'id_status'=>3,
-                'nama_status'=>'PASIEN DALAM PEMANTAUAN',
+                'nama_status'=>'PDP PROSES',
             ],
             [
                 'id_status'=>4,
-                'nama_status'=>'ORANG DALAM PEMANTAUAN',
+                'nama_status'=>'PDP SELESAI',
             ],
             [
                 'id_status'=>5,
-                'nama_status'=>'SEMBUH',
+                'nama_status'=>'ODP PROSES',
             ],
             [
                 'id_status'=>6,
-                'nama_status'=>'NEGATIF'
+                'nama_status'=>'ODP SELESAI'
             ]        
         ]);
         

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateFasilitasKarantinaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,31 +14,21 @@ class CreateUsersTable extends Migration
     public function up()
     {   
         Schema::defaultStringLength(191);
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');            
-            $table->string('username')->unique();
-            $table->string('password');            
-            $table->string('name');
-            $table->string('tempat_lahir')->nullable();
-            $table->date('tanggal_lahir')->nullable();
-            $table->string('jk',1)->nullable();
-            $table->string('gol_darah',1)->nullable();
-            $table->string('nomor_hp',19)->nullable();
+        Schema::create('tmFasilitasKarantina', function (Blueprint $table) {
+            $table->string('FasilitasKarantinaID',19);            
+            $table->string('Nm_Fasilitas');
             $table->string('alamat')->nullable();
             $table->string('PmKecamatanID',19)->nullable();
             $table->string('Nm_Kecamatan')->nullable();
             $table->string('PmDesaID',19)->nullable();
             $table->string('Nm_Desa')->nullable();
-            $table->string('email')->unique()->nullable();
-            $table->string('foto')->default('storage/images/users/no_photo.png');
-            $table->tinyInteger('status_pasien')->default(3);
-            $table->boolean('active')->default(1);
-            $table->boolean('isdeleted')->default(1);
-            $table->boolean('locked')->default(0);                          
-            $table->string('payload')->nullable();
-
+            
             $table->timestamps();
 
+            $table->primary('FasilitasKarantinaID');
+            $table->index('PmKecamatanID');
+            $table->index('PmDesaID');
+            
             $table->foreign('PmKecamatanID')
                             ->references('PmKecamatanID')
                             ->on('tmPmKecamatan')
@@ -61,6 +51,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('tmFasilitasKarantina');
     }
 }

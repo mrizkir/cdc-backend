@@ -35,7 +35,7 @@ class CreateVLokasiTerakhirView extends Migration
                 users 
             JOIN (SELECT user_id,MAX(id) AS lokasi_id FROM pasien_location GROUP BY user_id) AS A ON (A.user_id=users.id)
             JOIN pasien_location B ON (B."id"=A.lokasi_id)
-            JOIN "tmStatusPasien" C ON (users.status_pasien=C.id_status)
+            JOIN "pasien_status" C ON (users.status_pasien=C.id_status)
             ORDER BY 
                 users.created_at ASC
         ');				

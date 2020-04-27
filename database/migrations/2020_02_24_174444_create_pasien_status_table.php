@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStatusPasienTable extends Migration
+class CreatePasienStatusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateStatusPasienTable extends Migration
     public function up()
     {   
         Schema::defaultStringLength(191);
-        Schema::create('tmStatusPasien', function (Blueprint $table) {
+        Schema::create('pasien_status', function (Blueprint $table) {
             $table->tinyInteger('id_status',1);            
             $table->string('nama_status');
         });
@@ -27,6 +27,6 @@ class CreateStatusPasienTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tmStatusPasien');
+        Schema::dropIfExists('pasien_status');
     }
 }

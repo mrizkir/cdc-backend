@@ -11,16 +11,6 @@ use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class DesaController extends Controller {
     /**
-     * Membuat sebuah objek
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang']);
-    }
-    /**
      * collect data from resources for index view
      *
      * @return resources
