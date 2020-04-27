@@ -11,7 +11,7 @@ class HistoryPasienModel extends Model
      *
      * @var string
      */
-    protected $table = 'history_pasien';
+    protected $table = 'pasien_history';
     /**
      * The attributes that are mass assignable.
      *
