@@ -169,7 +169,15 @@ class UsersPetugasController extends Controller {
         $user = User::where('isdeleted','t')
                     ->find($id); 
 
-        if ($user instanceof User)
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data Petugas tidak ditemukan."
+                                ],422);         
+        }
+        else
         {
             $username=$user->username;
             $user->delete();
