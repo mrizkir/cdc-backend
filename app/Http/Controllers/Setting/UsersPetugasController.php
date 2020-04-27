@@ -56,7 +56,11 @@ class UsersPetugasController extends Controller {
             'email'=>'required|string|email|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',
-            'payload'=>'required',
+            'nomor_hp'=>'required',                
+            'PmKecamatanID'=>'required',            
+            'Nm_Kecamatan'=>'required',            
+            'PmDesaID'=>'required',            
+            'Nm_Desa'=>'required', 
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
@@ -64,9 +68,13 @@ class UsersPetugasController extends Controller {
             'email'=>$request->input('email'),
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),
-            'email_verified_at'=>\Carbon\Carbon::now(),
-            'payload'=>$request->input('payload'),
-            'theme'=>$request->input('theme'),
+            'nomor_hp'=>$request->input('nomor_hp'),
+            'PmKecamatanID'=>$request->input('PmKecamatanID'),
+            'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
+            'PmDesaID'=>$request->input('PmDesaID'),
+            'Nm_Desa'=>$request->input('Nm_Desa'),            
+            'payload'=>'{}',            
+            'foto'=>'storage/images/users/no_photo.png',            
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);            
@@ -104,12 +112,20 @@ class UsersPetugasController extends Controller {
             $this->validate($request, [
                                         'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
                                         'name'=>'required',            
-                                        'email'=>'required|string|email|unique:users,email,'.$id              
+                                        'email'=>'required|string|email|unique:users,email,'.$id,
+                                        'nomor_hp'=>$request->input('nomor_hp'),
+                                        'PmKecamatanID'=>$request->input('PmKecamatanID'),
+                                        'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
+                                        'PmDesaID'=>$request->input('PmDesaID'),
+                                        'Nm_Desa'=>$request->input('Nm_Desa'),                
                                     ]); 
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->username = $request->input('username');
-            $user->theme = $request->input('theme');
+            $user->nomor_hp = $request->input('username');
+            $user->PmKecamatanID = $request->input('username');
+            $user->Nm_Kecamatan = $request->input('username');
+            $user->Nm_Desa = $request->input('username');
+            
             if (!empty(trim($request->input('password')))) {
                 $user->password = Hash::make($request->input('password'));
             }    
