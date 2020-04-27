@@ -107,24 +107,34 @@ class UsersPetugasController extends Controller {
         // $this->hasPermissionTo('USERS PETUGAS_UPDATE');
 
         $user = User::find($id);
-        if ($request->has('dialog'))
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'update',                
+                                    'message'=>"Data Petugas tidak ditemukan"
+                                ],422);         
+        }
+        else
         {
             $this->validate($request, [
                                         'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
                                         'name'=>'required',            
                                         'email'=>'required|string|email|unique:users,email,'.$id,
-                                        'nomor_hp'=>$request->input('nomor_hp'),
-                                        'PmKecamatanID'=>$request->input('PmKecamatanID'),
-                                        'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
-                                        'PmDesaID'=>$request->input('PmDesaID'),
-                                        'Nm_Desa'=>$request->input('Nm_Desa'),                
+                                        'nomor_hp'=>'required',                
+                                        'PmKecamatanID'=>'required',            
+                                        'Nm_Kecamatan'=>'required',            
+                                        'PmDesaID'=>'required',            
+                                        'Nm_Desa'=>'required', 
                                     ]); 
             $user->name = $request->input('name');
             $user->email = $request->input('email');
-            $user->nomor_hp = $request->input('username');
-            $user->PmKecamatanID = $request->input('username');
-            $user->Nm_Kecamatan = $request->input('username');
-            $user->Nm_Desa = $request->input('username');
+            $user->nomor_hp = $request->input('nomor_hp');
+            $user->PmKecamatanID = $request->input('PmKecamatanID');
+            $user->Nm_Kecamatan = $request->input('Nm_Kecamatan');
+            $user->PmDesaID = $request->input('PmDesaID');
+            $user->Nm_Desa = $request->input('Nm_Desa');
             
             if (!empty(trim($request->input('password')))) {
                 $user->password = Hash::make($request->input('password'));
@@ -144,26 +154,7 @@ class UsersPetugasController extends Controller {
                                     'user'=>$user,      
                                     'message'=>'Data user Petugas '.$user->username.' berhasil diubah.'
                                 ],200); 
-        }
-        else
-        {   
-            $user->payload=$request->input('payload');
-
-            $user->save();
-
-            \App\Models\Setting\ActivityLog::log($request,[
-                                                        'object' => $this->guard()->user(), 
-                                                        'user_id' => $this->guard()->user()->id, 
-                                                        'message' => 'Mengubah data hak akses user Petugas ('.$user->username.') dengan Petugas = '.$user->payload.' berhasil'
-                                                    ]);
-            return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'update',
-                                    'user'=>$user,                                    
-                                    'message' => 'Mengubah data hak akses user Petugas ('.$user->username.') dengan Petugas = '.$user->payload.' berhasil'
-                                ],200); 
-            
-        }
+        }    
     }
      /**
      * Remove the specified resource from storage.
