@@ -2,5 +2,7 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/yaca/cdc-backend.yacanet.com/
+    - /bin/rm -rf $DEPLOYPATH2/app
+    - /bin/rm -rf $DEPLOYPATH2/database
     - /bin/cp -R * $DEPLOYPATH
     - /usr/bin/git push origin master -u
