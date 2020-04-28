@@ -58,9 +58,7 @@ class UsersPetugasController extends Controller {
             'password'=>'required',
             'nomor_hp'=>'required',                
             'PmKecamatanID'=>'required',            
-            'Nm_Kecamatan'=>'required',            
-            'PmDesaID'=>'required',            
-            'Nm_Desa'=>'required', 
+            'Nm_Kecamatan'=>'required',                        
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
@@ -124,9 +122,7 @@ class UsersPetugasController extends Controller {
                                         'email'=>'required|string|email|unique:users,email,'.$id,
                                         'nomor_hp'=>'required',                
                                         'PmKecamatanID'=>'required',            
-                                        'Nm_Kecamatan'=>'required',            
-                                        'PmDesaID'=>'required',            
-                                        'Nm_Desa'=>'required', 
+                                        'Nm_Kecamatan'=>'required',                                                   
                                     ]); 
             $user->name = $request->input('name');
             $user->email = $request->input('email');
