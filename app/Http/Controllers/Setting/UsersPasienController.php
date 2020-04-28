@@ -159,6 +159,70 @@ class UsersPasienController extends Controller {
 
     }
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storedetail(Request $request)
+    {
+        // $this->hasPermissionTo('USERS PASIEN_STORE');
+
+        $this->validate($request, [
+            'username'=>'required|string|unique:users',
+            'password'=>'required',            
+            'name'=>'required',                
+            'tempat_lahir'=>'required',                
+            'tanggal_lahir'=>'required',                
+            'jk'=>'required',                
+            'gol_darah'=>'required',                
+            'nomor_hp'=>'required',                
+            'alamat'=>'required',            
+            'PmKecamatanID'=>'required',            
+            'Nm_Kecamatan'=>'required',            
+            'PmDesaID'=>'required',            
+            'Nm_Desa'=>'required',            
+            'foto'=>'required',               
+        ]);
+        
+        $now = \Carbon\Carbon::now()->toDateTimeString();        
+        $user=User::create([
+            'username'=> $request->input('username'),
+            'password'=>Hash::make($request->input('password')),            
+            'name'=>$request->input('name'),
+            'tempat_lahir'=>$request->input('tempat_lahir'),
+            'tanggal_lahir'=>$request->input('tanggal_lahir'),
+            'jk'=>$request->input('jk'),
+            'gol_darah'=>$request->input('gol_darah'),
+            'nomor_hp'=>$request->input('nomor_hp'),
+            'alamat'=>$request->input('alamat'),
+            'PmKecamatanID'=>$request->input('PmKecamatanID'),
+            'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
+            'PmDesaID'=>$request->input('PmDesaID'),
+            'Nm_Desa'=>$request->input('Nm_Desa'),
+            'foto'=>$request->input('foto'),
+            'payload'=>$request->input('payload'),            
+            'created_at'=>$now, 
+            'updated_at'=>$now
+        ]);            
+        $role='pasien';   
+        $user->assignRole($role);      
+
+        \App\Models\Setting\ActivityLog::log($request,[
+                                        'object' => $this->guard()->user(), 
+                                        'user_id' => $this->guard()->user()->id, 
+                                        'message' => 'Menambah user Pasien('.$user->username.') berhasil'
+                                    ]);
+            
+        return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'store',
+                                    'user'=>$user,                                    
+                                    'message'=>'Data user Pasien berhasil disimpan.'
+                                ],200); 
+
+    }
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
