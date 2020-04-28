@@ -120,6 +120,7 @@ class UsersPasienController extends Controller {
             'Nm_Desa'=>'required',            
             'foto'=>'required',               
         ]);
+        
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
             'username'=> $request->input('username'),
@@ -141,16 +142,7 @@ class UsersPasienController extends Controller {
             'updated_at'=>$now
         ]);            
         $role='pasien';   
-        $user->assignRole($role);               
-        
-        HistoryPasienModel::create([
-            'user_id'=>$user->id,
-            'id_status'=>3,
-            'nama_status'=>Helper::getStatusPasien(3),
-            'Descr'=>'Awal input, status secara default '.Helper::getStatusPasien(3),
-            'created_at'=>$now, 
-            'updated_at'=>$now
-        ]);
+        $user->assignRole($role);      
 
         \App\Models\Setting\ActivityLog::log($request,[
                                         'object' => $this->guard()->user(), 
