@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
+use App\Models\DMaster\KecamatanModel;
+use App\Models\DMaster\DesaModel;
 use Spatie\Permission\Models\Role;
 
 class UsersPetugasController extends Controller {         
@@ -60,6 +62,22 @@ class UsersPetugasController extends Controller {
             'PmKecamatanID'=>'required',            
             'Nm_Kecamatan'=>'required',                        
         ]);
+
+        $PmKecamatanID=$request->input('PmKecamatanID');        
+        $kecamatan=KecamatanModel::find($PmKecamatanID);            
+        
+        $PmDesaID=$request->input('PmDesaID');
+        $desa=DesaModel::find($PmDesaID);
+        if (is_null($desa))
+        {
+            $PmDesaID=null;
+            $Nm_Desa=null;
+        }
+        else
+        {
+            $Nm_Desa=$desa->Nm_Desa;
+        }            
+        
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
             'name'=>$request->input('name'),
@@ -67,8 +85,8 @@ class UsersPetugasController extends Controller {
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),
             'nomor_hp'=>$request->input('nomor_hp'),
-            'PmKecamatanID'=>$request->input('PmKecamatanID'),
-            'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
+            'PmKecamatanID'=>$PmKecamatanID,
+            'Nm_Kecamatan'=>$kecamatan->Nm_Kecamatan,
             'PmDesaID'=>$request->input('PmDesaID'),
             'Nm_Desa'=>$request->input('Nm_Desa'),            
             'payload'=>'{}',            
@@ -127,10 +145,19 @@ class UsersPetugasController extends Controller {
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->nomor_hp = $request->input('nomor_hp');
-            $user->PmKecamatanID = $request->input('PmKecamatanID');
-            $user->Nm_Kecamatan = $request->input('Nm_Kecamatan');
-            $user->PmDesaID = $request->input('PmDesaID');
-            $user->Nm_Desa = $request->input('Nm_Desa');
+
+            $PmKecamatanID=$request->input('PmKecamatanID');
+            $user->PmKecamatanID = $PmKecamatanID;
+            $kecamatan=KecamatanModel::find($PmKecamatanID);            
+            $user->Nm_Kecamatan = $kecamatan->Nm_Kecamatan;
+            
+            $PmDesaID=$request->input('PmDesaID');
+            $desa=DesaModel::find($PmDesaID);
+            if (!is_null($desa))
+            {
+                $user->PmDesaID = $PmDesaID;
+                $user->Nm_Desa = $desa->Nm_Desa;
+            }            
             
             if (!empty(trim($request->input('password')))) {
                 $user->password = Hash::make($request->input('password'));

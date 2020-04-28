@@ -95,7 +95,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //digunakan menambah lokasi
     $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
     //digunakan untuk menyimpan detail pasien
-
+    $router->post('/setting/userspasien/storedetail/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@storedetail','as'=>'userspasien.storedetail']);    
+    //digunakan untuk mengubah detail pasien
+    $router->post('/setting/userspasien/updatedetail/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@updatedetail','as'=>'userspasien.updatedetail']);    
 
     
 });
