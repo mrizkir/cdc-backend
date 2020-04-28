@@ -176,7 +176,27 @@ class UsersPasienController extends Controller {
     {
         // $this->hasPermissionTo('USERS PASIEN_SHOW');
 
-        $user = User::select(\DB::raw('id,username,name,tempat_lahir,tanggal_lahir,nomor_hp,alamat,"PmKecamatanID","Nm_Kecamatan","PmDesaID","Nm_Desa","foto","status_pasien","nama_status","payload","created_at","updated_at"'))
+        $user = User::select(\DB::raw('
+                        id,
+                        username,
+                        name,
+                        tempat_lahir,
+                        tanggal_lahir,
+                        jk,
+                        gol_darah,
+                        nomor_hp,
+                        alamat,
+                        "PmKecamatanID",
+                        "Nm_Kecamatan",
+                        "PmDesaID",
+                        "Nm_Desa",
+                        "foto",
+                        "status_pasien",
+                        "nama_status",
+                        "payload",
+                        "created_at",
+                        "updated_at"'
+                    ))
                     ->join('pasien_status','pasien_status.id_status','users.status_pasien')
                     ->find($id);
         
