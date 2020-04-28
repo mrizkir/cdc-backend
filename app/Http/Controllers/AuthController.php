@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Models\Dmaster\StatusPasienModel;
+use App\Models\DMaster\StatusPasienModel;
 
 
 class AuthController extends Controller
