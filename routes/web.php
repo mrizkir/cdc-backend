@@ -30,6 +30,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'auth.refresh']);
     $router->get('/auth/me',['uses'=>'AuthController@me','as'=>'auth.me']);
 
+    //dmaster - fasilitas karantina
+    $router->get('/dmaster/fasilitaskarantina',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@index','as'=>'fasilitaskarantina.index']);
+    $router->post('/dmaster/fasilitaskarantina/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@store','as'=>'fasilitaskarantina.store']);
+    $router->put('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@update','as'=>'fasilitaskarantina.update']);
+    $router->delete('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@destroy','as'=>'fasilitaskarantina.destroy']);    
+    
     //digunakan untuk mendapatkan lokasi terakhir seluruh pasien -lokasi
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
 
@@ -85,5 +91,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
     //digunakan menambah lokasi
     $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
+    //digunakan untuk menyimpan detail pasien
+
+
     
 });
