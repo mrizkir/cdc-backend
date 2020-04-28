@@ -57,6 +57,7 @@ class UsersGugusTugasController extends Controller {
             'username'=>'required|string|unique:users',
             'password'=>'required',
             'nomor_hp'=>'required',                           
+            'alamat'=>'required',                           
         ]);
         $now = \Carbon\Carbon::now()->toDateTimeString();        
         $user=User::create([
@@ -65,6 +66,7 @@ class UsersGugusTugasController extends Controller {
             'username'=> $request->input('username'),
             'password'=>Hash::make($request->input('password')),
             'nomor_hp'=>$request->input('nomor_hp'),                  
+            'alamat'=>$request->input('alamat'),                  
             'payload'=>'{}',            
             'foto'=>'storage/images/users/no_photo.png',            
             'created_at'=>$now, 
@@ -115,10 +117,12 @@ class UsersGugusTugasController extends Controller {
                                         'name'=>'required',            
                                         'email'=>'required|string|email|unique:users,email,'.$id,
                                         'nomor_hp'=>'required',                                                        
+                                        'alamat'=>'required',                                                        
                                     ]); 
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->nomor_hp = $request->input('nomor_hp');            
+            $user->alamat = $request->input('alamat');            
             
             if (!empty(trim($request->input('password')))) {
                 $user->password = Hash::make($request->input('password'));

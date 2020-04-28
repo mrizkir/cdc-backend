@@ -18,7 +18,10 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 
     //kecamatan -data master
     $router->get('/dmaster/kecamatan',['uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
-    $router->get('/dmaster/kecamatan/{id}/desa',['uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']);        
+    $router->get('/dmaster/kecamatan/{id}/desa',['uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']); 
+    
+    //status pasien -data master
+    $router->get('/dmaster/statuspasien',['uses'=>'DMaster\StatusPasienController@index','as'=>'statuspasien.index']);                  
 });
 
 $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
