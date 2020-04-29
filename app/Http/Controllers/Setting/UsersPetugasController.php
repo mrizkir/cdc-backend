@@ -112,6 +112,101 @@ class UsersPetugasController extends Controller {
 
     }
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storedetail(Request $request,$id)
+    {
+        // $this->hasPermissionTo('USERS PETUGAS_STORE');
+        
+        $user = User::find($id); 
+
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'destroy',                
+                                    'message'=>"Data Pasien tidak ditemukan."
+                                ],422);         
+        }
+        else
+        {
+
+            $this->validate($request, [
+                'founded_alamat'=>'required',
+                'founded_PmKecamatanID'=>'required',
+                'founded_Nm_Kecamatan'=>'required',
+                'founded_PmDesaID'=>'required',
+                'founded_Nm_Desa'=>'required',                
+                'founded_lat'=>'required',            
+                'founded_lng'=>'required',   
+                
+                'karantina_alamat'=>'required',   
+                'karantina_PmKecamatanID'=>'required',   
+                'karantina_Nm_Kecamatan'=>'required',   
+                'karantina_Nm_Desa'=>'required',   
+
+                'karantina_mulai'=>'required',   
+                'karantina_selesai'=>'required',   
+                'karantina_time'=>'required',   
+
+                'transmisi_penularan'=>'required',   
+                'ket_transmisi'=>'required',   
+                'jenis_test'=>'required', 
+            ]);
+
+            $PmKecamatanID=$request->input('PmKecamatanID');        
+            $kecamatan=KecamatanModel::find($PmKecamatanID);            
+            
+            $PmDesaID=$request->input('PmDesaID');
+            $desa=DesaModel::find($PmDesaID);
+            if (is_null($desa))
+            {
+                $PmDesaID=null;
+                $Nm_Desa=null;
+            }
+            else
+            {
+                $Nm_Desa=$desa->Nm_Desa;
+            }            
+            
+            $now = \Carbon\Carbon::now()->toDateTimeString();        
+            $user=User::create([
+                'name'=>$request->input('name'),
+                'email'=>$request->input('email'),
+                'username'=> $request->input('username'),
+                'password'=>Hash::make($request->input('password')),
+                'nomor_hp'=>$request->input('nomor_hp'),
+                'PmKecamatanID'=>$PmKecamatanID,
+                'Nm_Kecamatan'=>$kecamatan->Nm_Kecamatan,
+                'PmDesaID'=>$request->input('PmDesaID'),
+                'Nm_Desa'=>$request->input('Nm_Desa'),            
+                'payload'=>'{}',            
+                'foto'=>'storage/images/users/no_photo.png',            
+                'created_at'=>$now, 
+                'updated_at'=>$now
+            ]);            
+            $role='petugas';   
+            $user->assignRole($role);               
+            
+            \App\Models\Setting\ActivityLog::log($request,[
+                                            'object' => $this->guard()->user(), 
+                                            'user_id' => $this->guard()->user()->id, 
+                                            'message' => 'Menambah user Petugas('.$user->username.') berhasil'
+                                        ]);
+
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'store',
+                                        'user'=>$user,                                    
+                                        'message'=>'Data user Petugas berhasil disimpan.'
+                                    ],200); 
+
+        }
+    }
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

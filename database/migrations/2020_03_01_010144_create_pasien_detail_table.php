@@ -25,7 +25,7 @@ class CreatePasienDetailTable extends Migration
             $table->string('founded_lat',25);
             $table->string('founded_lng',25);
 
-            $table->string('FasilitasKarantinaID',19);
+            $table->string('FasilitasKarantinaID',19)->nullable();
             $table->string('karantina_alamat');            
             $table->string('karantina_PmKecamatanID',19);
             $table->string('karantina_Nm_Kecamatan');
