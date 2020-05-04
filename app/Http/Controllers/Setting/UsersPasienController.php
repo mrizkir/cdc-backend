@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
+use App\Models\PasienDetailModel;
 use App\Models\Setting\HistoryPasienModel;
 use App\Models\Setting\LokasiPasienModel;
 use App\Helpers\Helper;
@@ -164,62 +165,91 @@ class UsersPasienController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function storedetail(Request $request)
+    public function storedetail(Request $request,$id)
     {
         // $this->hasPermissionTo('USERS PASIEN_STORE');
-
-        $this->validate($request, [
-            'username'=>'required|string|unique:users',
-            'password'=>'required',            
-            'name'=>'required',                
-            'tempat_lahir'=>'required',                
-            'tanggal_lahir'=>'required',                
-            'jk'=>'required',                
-            'gol_darah'=>'required',                
-            'nomor_hp'=>'required',                
-            'alamat'=>'required',            
-            'PmKecamatanID'=>'required',            
-            'Nm_Kecamatan'=>'required',            
-            'PmDesaID'=>'required',            
-            'Nm_Desa'=>'required',            
-            'foto'=>'required',               
-        ]);
+        $user = User::find($id);
         
-        $now = \Carbon\Carbon::now()->toDateTimeString();        
-        $user=User::create([
-            'username'=> $request->input('username'),
-            'password'=>Hash::make($request->input('password')),            
-            'name'=>$request->input('name'),
-            'tempat_lahir'=>$request->input('tempat_lahir'),
-            'tanggal_lahir'=>$request->input('tanggal_lahir'),
-            'jk'=>$request->input('jk'),
-            'gol_darah'=>$request->input('gol_darah'),
-            'nomor_hp'=>$request->input('nomor_hp'),
-            'alamat'=>$request->input('alamat'),
-            'PmKecamatanID'=>$request->input('PmKecamatanID'),
-            'Nm_Kecamatan'=>$request->input('Nm_Kecamatan'),
-            'PmDesaID'=>$request->input('PmDesaID'),
-            'Nm_Desa'=>$request->input('Nm_Desa'),
-            'foto'=>$request->input('foto'),
-            'payload'=>$request->input('payload'),            
-            'created_at'=>$now, 
-            'updated_at'=>$now
-        ]);            
-        $role='pasien';   
-        $user->assignRole($role);      
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'update',                
+                                    'message'=>"Data Pasien tidak ditemukan"
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [
+                'founded_alamat'=>'required|string',
+                'founded_PmKecamatanID'=>'required',            
+                'founded_Nm_Kecamatan'=>'required',                
+                'founded_PmDesaID'=>'required',                
+                'founded_Nm_Desa'=>'required',                
+                'founded_lat'=>'required',                
+                'founded_lng'=>'required',  
 
-        \App\Models\Setting\ActivityLog::log($request,[
-                                        'object' => $this->guard()->user(), 
-                                        'user_id' => $this->guard()->user()->id, 
-                                        'message' => 'Menambah user Pasien('.$user->username.') berhasil'
-                                    ]);
+                'FasilitasKarantinaID'=>'required',                
+                'karantina_alamat'=>'required',            
+                'karantina_PmKecamatanID'=>'required',            
+                'karantina_Nm_Kecamatan'=>'required',            
+                'karantina_PmDesaID'=>'required',            
+                'karantina_Nm_Desa'=>'required', 
+                'karantina_mulai'=>'required', 
+                'karantina_selesai'=>'required', 
+                'karantina_time'=>'required', 
+
+                'transmisi_penularan'=>'required', 
+                'ket_transmisi'=>'required', 
+
+                'jenis_test'=>'required', 
+                
+            ]);
             
-        return Response()->json([
-                                    'status'=>1,
-                                    'pid'=>'store',
-                                    'user'=>$user,                                    
-                                    'message'=>'Data user Pasien berhasil disimpan.'
-                                ],200); 
+            $now = \Carbon\Carbon::now()->toDateTimeString();        
+            $detail=PasienDetailModel::create([
+                'founded_alamat'=> $request->input('founded_alamat'),
+                'founded_PmKecamatanID'=>Hash::make($request->input('founded_PmKecamatanID')),            
+                'founded_Nm_Kecamatan'=>$request->input('founded_Nm_Kecamatan'),
+                'founded_PmDesaID'=>$request->input('founded_PmDesaID'),
+                'founded_Nm_Desa'=>$request->input('founded_Nm_Desa'),
+                'founded_lat'=>$request->input('founded_lat'),
+                'founded_lng'=>$request->input('founded_lng'),
+
+                'FasilitasKarantinaID'=>$request->input('FasilitasKarantinaID'),
+                'karantina_alamat'=>$request->input('karantina_alamat'),
+                'karantina_PmKecamatanID'=>$request->input('karantina_PmKecamatanID'),
+                'karantina_Nm_Kecamatan'=>$request->input('karantina_Nm_Kecamatan'),
+                'karantina_PmDesaID'=>$request->input('karantina_PmDesaID'),
+                'karantina_Nm_Desa'=>$request->input('karantina_Nm_Desa'),
+                'karantina_mulai'=>$request->input('karantina_mulai'),
+                'karantina_selesai'=>$request->input('karantina_selesai'),
+                'karantina_time'=>$request->input('karantina_time'),
+
+                'transmisi_penularan'=>$request->input('transmisi_penularan'),            
+                'ket_transmisi'=>$request->input('ket_transmisi'),            
+                'jenis_test'=>$request->input('jenis_test'),    
+                        
+                'created_at'=>$now, 
+                'updated_at'=>$now
+            ]);            
+            $role='pasien';   
+            $user->assignRole($role);      
+
+            \App\Models\Setting\ActivityLog::log($request,[
+                                            'object' => $this->guard()->user(), 
+                                            'user_id' => $this->guard()->user()->id, 
+                                            'message' => 'Menambah detail detail ('.$user->username.') berhasil'
+                                        ]);
+                
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'store',
+                                        'user'=>$user,                                    
+                                        'detail'=>$detail,                                    
+                                        'message'=>'Data detail pasien  berhasil disimpan.'
+                                    ],200); 
+        }
 
     }
     /**
