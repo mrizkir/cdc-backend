@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 use App\Models\User;
-use App\Models\PasienDetailModel;
+use App\Models\Pasien\PasienDetailModel;
 use App\Models\Setting\HistoryPasienModel;
 use App\Models\Setting\LokasiPasienModel;
 use App\Helpers\Helper;
@@ -180,7 +180,7 @@ class UsersPasienController extends Controller {
         }
         else
         {
-            $this->validate($request, [
+            $this->validate($request, [                
                 'founded_alamat'=>'required|string',
                 'founded_PmKecamatanID'=>'required',            
                 'founded_Nm_Kecamatan'=>'required',                
@@ -208,8 +208,9 @@ class UsersPasienController extends Controller {
             
             $now = \Carbon\Carbon::now()->toDateTimeString();        
             $detail=PasienDetailModel::create([
+                'user_id'=>$user->id,
                 'founded_alamat'=> $request->input('founded_alamat'),
-                'founded_PmKecamatanID'=>Hash::make($request->input('founded_PmKecamatanID')),            
+                'founded_PmKecamatanID'=>$request->input('founded_PmKecamatanID'),            
                 'founded_Nm_Kecamatan'=>$request->input('founded_Nm_Kecamatan'),
                 'founded_PmDesaID'=>$request->input('founded_PmDesaID'),
                 'founded_Nm_Desa'=>$request->input('founded_Nm_Desa'),

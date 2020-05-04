@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\DMaster;
+namespace App\Models\Pasien;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,7 +10,7 @@ class PasienDetailModel extends Model {
      *
      * @var string
      */
-    protected $table = 'user_id';
+    protected $table = 'pasien_detail';
     /**
      * The attributes that are mass assignable.
      *
