@@ -55,7 +55,7 @@ class AuthController extends Controller
             $user['kecamatan_lng']=$kecamatan->lat;   
         }        
         $desa=DesaModel::find($user['PmDesaID']);
-        if(!is_null($kecamatan))
+        if(!is_null($desa))
         {
             $user['desa_lat']=$desa->lat;
             $user['desa_lng']=$desa->lat;   

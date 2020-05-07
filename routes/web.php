@@ -34,9 +34,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->get('/auth/me',['uses'=>'AuthController@me','as'=>'auth.me']);
 
     //dmaster - fasilitas karantina
-    $router->get('/dmaster/fasilitaskarantina',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@index','as'=>'fasilitaskarantina.index']);
+    $router->get('/dmaster/fasilitaskarantina',['middleware'=>['role:superadmin|petugas|pasien'],'uses'=>'DMaster\FasilitasKarantinaController@index','as'=>'fasilitaskarantina.index']);
     $router->post('/dmaster/fasilitaskarantina/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@store','as'=>'fasilitaskarantina.store']);
-    $router->put('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@update','as'=>'fasilitaskarantina.update']);
+    $router->put('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin|fasilitas|pasien'],'uses'=>'DMaster\FasilitasKarantinaController@update','as'=>'fasilitaskarantina.update']);
     $router->delete('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@destroy','as'=>'fasilitaskarantina.destroy']);    
     
     //digunakan untuk mendapatkan lokasi terakhir seluruh pasien -lokasi
