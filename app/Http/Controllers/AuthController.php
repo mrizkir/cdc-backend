@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\DMaster\StatusPasienModel;
+use App\Models\DMaster\KecamatanModel;
+use App\Models\DMaster\DesaModel;
 
 
 class AuthController extends Controller
@@ -46,6 +48,19 @@ class AuthController extends Controller
         {
             $user['nama_status']=$status_pasien->nama_status;
         }
+        $kecamatan=KecamatanModel::find($user['PmKecamatanID']);
+        if(!is_null($kecamatan))
+        {
+            $user['kecamatan_lat']=$kecamatan->lat;
+            $user['kecamatan_lng']=$kecamatan->lat;   
+        }        
+        $desa=DesaModel::find($user['PmDesaID']);
+        if(!is_null($kecamatan))
+        {
+            $user['desa_lat']=$desa->lat;
+            $user['desa_lng']=$desa->lat;   
+        }             
+           
         $user['role']=$this->guard()->user()->getRoleNames()->toArray();
         $user['issuperadmin']=$this->guard()->user()->hasRole('superadmin');
         $user['permissions']=$this->guard()->user()->permissions->pluck('id','name')->toArray();
