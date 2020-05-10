@@ -89,11 +89,11 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //digunakan mengupdate data diri pasien
     $router->put('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@update','as'=>'userspasien.update']);
     //digunakan mengupdate status pasien, daftar kode status lihat di file app\Helpers\Helper
-    $router->put('/setting/userspasien/updatestatus/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@updatestatus','as'=>'userspasien.updatestatus']);
+    $router->put('/setting/userspasien/updatestatus/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@updatestatus','as'=>'userspasien.updatestatus']);
     //digunakan menghapus pasien
-    $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
+    $router->delete('/setting/userspasien/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@destroy','as'=>'userspasien.destroy']);    
     //digunakan menambah lokasi
-    $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
+    $router->post('/setting/userspasien/tambahlokasi/{id}',['middleware'=>['role:superadmin|gugustugas|petugas|pasien'],'uses'=>'Setting\UsersPasienController@tambahlokasi','as'=>'userspasien.tambahlokasi']);    
     //digunakan untuk menyimpan detail pasien
     $router->post('/setting/userspasien/storedetail/{id}',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\UsersPasienController@storedetail','as'=>'userspasien.storedetail']);    
     //digunakan untuk mengubah detail pasien
