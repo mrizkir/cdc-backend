@@ -31,6 +31,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'gol_darah', 
         'nomor_hp', 
         'alamat', 
+        'status_pasien', 
         'PmKecamatanID', 
         'Nm_Kecamatan', 
         'PmDesaID', 

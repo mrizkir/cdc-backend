@@ -19,7 +19,9 @@ class CreateKotaTable extends Migration
             $table->tinyInteger('Kd_Kota');
             $table->string('Nm_Kota',100);      
             $table->string('lat',25);            
-            $table->string('lng',25);       
+            $table->string('lat2',25);            
+            $table->string('lng',25);                        
+            $table->string('lng2',25);                        
             $table->string('Descr')->nullable();            
             $table->timestamps();
 

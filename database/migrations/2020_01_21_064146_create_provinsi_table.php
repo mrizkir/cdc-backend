@@ -18,7 +18,9 @@ class CreateProvinsiTable extends Migration
             $table->tinyInteger('Kd_Prov');
             $table->string('Nm_Prov',100);            
             $table->string('lat',25);            
-            $table->string('lng',25); 
+            $table->string('lat2',25);            
+            $table->string('lng',25);                        
+            $table->string('lng2',25);                        
             $table->string('Descr')->nullable();            
             
             $table->timestamps();
