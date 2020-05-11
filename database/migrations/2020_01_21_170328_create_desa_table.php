@@ -18,10 +18,10 @@ class CreateDesaTable extends Migration
             $table->string('PmKecamatanID',19);
             $table->tinyInteger('Kd_Desa');
             $table->string('Nm_Desa',100);            
-            $table->string('lat',25);            
-            $table->string('lat2',25);            
-            $table->string('lng',25);                        
-            $table->string('lng2',25);                        
+            $table->string('lat',25)->nullable();            
+            $table->string('lat2',25)->nullable();            
+            $table->string('lng',25)->nullable();                        
+            $table->string('lng2',25)->nullable();                        
             $table->string('Descr')->nullable();            
             $table->timestamps();
 
