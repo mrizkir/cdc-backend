@@ -38,6 +38,16 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/dmaster/fasilitaskarantina/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@store','as'=>'fasilitaskarantina.store']);
     $router->put('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin|fasilitas|pasien'],'uses'=>'DMaster\FasilitasKarantinaController@update','as'=>'fasilitaskarantina.update']);
     $router->delete('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@destroy','as'=>'fasilitaskarantina.destroy']);    
+
+    //dmaster - Kecamatan    
+    $router->post('/dmaster/kecamatan/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@store','as'=>'kecamatan.store']);
+    $router->put('/dmaster/kecamatan/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@update','as'=>'kecamatan.update']);
+    $router->delete('/dmaster/kecamatan/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@destroy','as'=>'kecamatan.destroy']);
+
+    //dmaster - Desa    
+    $router->post('/dmaster/desa/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\DesaController@store','as'=>'desa.store']);
+    $router->put('/dmaster/desa/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\DesaController@update','as'=>'desa.update']);
+    $router->delete('/dmaster/desa/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\DesaController@destroy','as'=>'desa.destroy']);    
     
     //digunakan untuk mendapatkan lokasi terakhir seluruh pasien -lokasi
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    

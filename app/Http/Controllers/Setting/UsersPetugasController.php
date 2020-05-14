@@ -58,7 +58,7 @@ class UsersPetugasController extends Controller {
             'email'=>'required|string|email|unique:users',
             'username'=>'required|string|unique:users',
             'password'=>'required',
-            'nomor_hp'=>'required',                
+            'nomor_hp'=>'required|numeric',                
             'PmKecamatanID'=>'required',            
             'Nm_Kecamatan'=>'required',                        
         ]);
@@ -233,7 +233,7 @@ class UsersPetugasController extends Controller {
                                         'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
                                         'name'=>'required',            
                                         'email'=>'required|string|email|unique:users,email,'.$id,
-                                        'nomor_hp'=>'required',                
+                                        'nomor_hp'=>'required|numeric',              
                                         'PmKecamatanID'=>'required',            
                                         'Nm_Kecamatan'=>'required',                                                   
                                     ]); 
