@@ -9,6 +9,23 @@ use App\Models\DMaster\DesaModel;
 
 class DesaController extends Controller {
     /**
+     * digunakan untuk mendapatkan daftar kecamatan
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $data = DesaModel::orderBy('Nm_Desa','ASC')
+                                ->get();
+                                
+        return Response()->json([
+                                'status'=>1,
+                                'pid'=>'fetchdata',
+                                'desa'=>$data,
+                                'message'=>'Fetch data desa berhasil diperoleh'
+                            ],200);  
+    }
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

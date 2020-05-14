@@ -16,10 +16,13 @@ $router->group(['prefix'=>'v1'], function () use ($router)
 
     $router->post('/pasien/lokasiterakhirpublik',['uses'=>'Setting\UsersPasienController@lokasiterakhirpublik','as'=>'pasien.lokasiterakhirpublik']);    
 
-    //kecamatan -data master
+    //data master - kecamatan
     $router->get('/dmaster/kecamatan',['uses'=>'DMaster\KecamatanController@index','as'=>'kecamatan.index']);        
     $router->get('/dmaster/kecamatan/{id}/desa',['uses'=>'DMaster\KecamatanController@desakecamatan','as'=>'kecamatan.desakecamatan']); 
     
+    //data master - desa
+    $router->get('/dmaster/desa',['uses'=>'DMaster\DesaController@index','as'=>'desa.index']);        
+
     //status pasien -data master
     $router->get('/dmaster/statuspasien',['uses'=>'DMaster\StatusPasienController@index','as'=>'statuspasien.index']);                  
 });
