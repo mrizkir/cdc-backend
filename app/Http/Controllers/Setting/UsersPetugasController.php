@@ -237,6 +237,7 @@ class UsersPetugasController extends Controller {
                                         'PmKecamatanID'=>'required',            
                                         'Nm_Kecamatan'=>'required',                                                   
                                     ]); 
+            $user->username = $request->input('username');
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->nomor_hp = $request->input('nomor_hp');

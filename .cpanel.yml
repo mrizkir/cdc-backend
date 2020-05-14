@@ -5,4 +5,3 @@ deployment:
     - /bin/rm -rf $DEPLOYPATH/app
     - /bin/rm -rf $DEPLOYPATH/database
     - /bin/cp -R * $DEPLOYPATH
-    - /usr/bin/git push origin master -u
