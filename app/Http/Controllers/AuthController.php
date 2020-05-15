@@ -52,13 +52,17 @@ class AuthController extends Controller
         if(!is_null($kecamatan))
         {
             $user['kecamatan_lat']=$kecamatan->lat;
-            $user['kecamatan_lng']=$kecamatan->lat;   
+            $user['kecamatan_lng']=$kecamatan->lng;   
+            $user['kecamatan_lat2']=$kecamatan->lat2;
+            $user['kecamatan_lng2']=$kecamatan->lng2;   
         }        
         $desa=DesaModel::find($user['PmDesaID']);
         if(!is_null($desa))
         {
             $user['desa_lat']=$desa->lat;
-            $user['desa_lng']=$desa->lat;   
+            $user['desa_lng']=$desa->lng;   
+            $user['desa_lat2']=$desa->lat2;
+            $user['desa_lng2']=$desa->lng2;   
         }             
            
         $user['role']=$this->guard()->user()->getRoleNames()->toArray();
