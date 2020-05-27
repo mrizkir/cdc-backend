@@ -44,6 +44,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/dmaster/fasilitaskarantina/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\FasilitasKarantinaController@destroy','as'=>'fasilitaskarantina.destroy']);    
 
     //dmaster - Kecamatan    
+    $router->get('/dmaster/kecamatan/{id}/pasien',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'DMaster\KecamatanController@pasien','as'=>'kecamatan.pasien']);
     $router->post('/dmaster/kecamatan/store',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@store','as'=>'kecamatan.store']);
     $router->put('/dmaster/kecamatan/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@update','as'=>'kecamatan.update']);
     $router->delete('/dmaster/kecamatan/{id}',['middleware'=>['role:superadmin'],'uses'=>'DMaster\KecamatanController@destroy','as'=>'kecamatan.destroy']);

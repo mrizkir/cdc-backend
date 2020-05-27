@@ -48,4 +48,8 @@ class KecamatanModel extends Model {
     {
         return $this->hasMany('App\Models\DMaster\DesaModel','PmKecamatanID','PmKecamatanID');
     }
+    public function pasien ()
+    {
+        return $this->hasMany('App\Models\User','PmKecamatanID','PmKecamatanID');
+    }
 }

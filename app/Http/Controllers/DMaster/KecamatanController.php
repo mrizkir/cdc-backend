@@ -84,5 +84,31 @@ class KecamatanController extends Controller {
                                 ],200); 
         }    
     }
-   
+    /**
+     * digunakan untuk mendapatkan daftar pasien berdasarkan kecamatan
+     */
+    public function pasien (Request $request,$id)
+    {
+        $kecamatan = KecamatanModel::find($id);
+        
+        if ($kecamatan == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'update',                
+                                    'message'=>"Data Kecamatan tidak ditemukan"
+                                ],422);         
+        }
+        else
+        {
+            $pasien = $kecamatan->pasien();
+            
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',
+                                    'pasien'=>$pasien,      
+                                    'message'=>'Data pasien berdasarkan kecamatan '.$kecamatan->Nm_Kecamatan.' berhasil diperoleh.'
+                                ],200); 
+        }
+    }
 }
