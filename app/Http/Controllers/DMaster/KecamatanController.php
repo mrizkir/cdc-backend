@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\DMaster\KecamatanModel;
 use App\Models\DMaster\DesaModel;
+use App\Models\User;
 use App\Rules\CheckRecordIsExistValidation;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
@@ -101,7 +102,8 @@ class KecamatanController extends Controller {
         }
         else
         {
-            $pasien = $kecamatan->pasien();
+            $pasien = User::where('PmKecamatanID',$id)
+                            ->get();
             
             return Response()->json([
                                     'status'=>1,
