@@ -57,6 +57,10 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //digunakan untuk mendapatkan lokasi terakhir seluruh pasien -lokasi
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|petugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
 
+    //report - form a murni
+    $router->post('/report/pasienall',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@pasienall','as'=>'reportpasienall.index']);    
+    $router->post('/report/pasienall/printtoexcel',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@printtoexcel','as'=>'reportpasienall.printtoexcel']);    
+
     //setting - permissions
     $router->get('/setting/permissions',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\PermissionsController@index','as'=>'permissions.index']);
     $router->post('/setting/permissions/store',['middleware'=>['role:superadmin'],'uses'=>'Setting\PermissionsController@store','as'=>'permissions.store']);    

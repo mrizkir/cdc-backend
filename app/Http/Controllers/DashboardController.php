@@ -22,7 +22,7 @@ class DashboardController extends Controller {
                             ->groupBy('status_pasien');
 
         $data=\DB::table('pasien_status')
-                    ->select(\DB::raw('id_status,nama_status,COALESCE(jumlah,0)'))
+                    ->select(\DB::raw('id_status,nama_status,COALESCE(jumlah,0) AS jumlah'))
                     ->leftJoinSub($subquery,'userspasien',function($join){
                         $join->on('userspasien.status_pasien','=','pasien_status.id_status');
                     })

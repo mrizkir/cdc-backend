@@ -119,6 +119,8 @@ class UsersGugusTugasController extends Controller {
                                         'nomor_hp'=>'required',                                                        
                                         'alamat'=>'required',                                                        
                                     ]); 
+                                    
+            $user->username = $request->input('username');
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->nomor_hp = $request->input('nomor_hp');            
