@@ -27,14 +27,13 @@ class DashboardController extends Controller {
                         $join->on('userspasien.status_pasien','=','pasien_status.id_status');
                     })
                     ->orderBy('id_status','ASC')
-                    ->get();
-    
-
+                    ->get();    
         
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
                                 'ringkasan'=>$data,
+                                'totalkasus'=>$data->sum('jumlah'),
                                 'message'=>'Fetch data dashboard berhasil diperoleh'
                             ],200);   
     }    
