@@ -178,7 +178,7 @@ class UsersPasienController extends Controller {
         {
             return Response()->json([
                                     'status'=>0,
-                                    'pid'=>'update',                
+                                    'pid'=>'store',                
                                     'message'=>"Data Pasien tidak ditemukan"
                                 ],422);         
         }
@@ -238,13 +238,11 @@ class UsersPasienController extends Controller {
                 'created_at'=>$now, 
                 'updated_at'=>$now
             ]);            
-            $role='pasien';   
-            $user->assignRole($role);      
 
             \App\Models\Setting\ActivityLog::log($request,[
                                             'object' => $this->guard()->user(), 
                                             'user_id' => $this->guard()->user()->id, 
-                                            'message' => 'Menambah detail detail ('.$user->username.') berhasil'
+                                            'message' => 'Menambah detail pasien ('.$user->username.') berhasil'
                                         ]);
                 
             return Response()->json([
@@ -253,6 +251,95 @@ class UsersPasienController extends Controller {
                                         'user'=>$user,                                    
                                         'detail'=>$detail,                                    
                                         'message'=>'Data detail pasien  berhasil disimpan.'
+                                    ],200); 
+        }
+
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updatedetail(Request $request,$id)
+    {
+        // $this->hasPermissionTo('USERS PASIEN_STORE');
+        $user = User::find($id);
+        
+        if ($user == null)
+        {
+            return Response()->json([
+                                    'status'=>0,
+                                    'pid'=>'update',                
+                                    'message'=>"Data Pasien tidak ditemukan"
+                                ],422);         
+        }
+        else
+        {
+            $this->validate($request, [                
+                'founded_alamat'=>'required|string',
+                'founded_PmKecamatanID'=>'required',            
+                'founded_Nm_Kecamatan'=>'required',                
+                'founded_PmDesaID'=>'required',                
+                'founded_Nm_Desa'=>'required',                
+                'founded_lat'=>'required',                
+                'founded_lng'=>'required',  
+
+                'FasilitasKarantinaID'=>'required',                
+                'karantina_alamat'=>'required',            
+                'karantina_PmKecamatanID'=>'required',            
+                'karantina_Nm_Kecamatan'=>'required',            
+                'karantina_PmDesaID'=>'required',            
+                'karantina_Nm_Desa'=>'required', 
+                'karantina_mulai'=>'required', 
+                'karantina_selesai'=>'required', 
+                'karantina_time'=>'required', 
+
+                'transmisi_penularan'=>'required', 
+                'ket_transmisi'=>'required', 
+
+                'jenis_test'=>'required', 
+                
+            ]);
+            
+            $detail=PasienDetailModel::find($id);
+
+            $detail->founded_alamat= $request->input('founded_alamat');            
+            $detail->founded_PmKecamatanID=$request->input('founded_PmKecamatanID');            
+            $detail->founded_Nm_Kecamatan=$request->input('founded_Nm_Kecamatan');
+            $detail->founded_PmDesaID=$request->input('founded_PmDesaID');
+            $detail->founded_Nm_Desa=$request->input('founded_Nm_Desa');
+            $detail->founded_lat=$request->input('founded_lat');
+            $detail->founded_lng=$request->input('founded_lng');
+
+            $detail->FasilitasKarantinaID=$request->input('FasilitasKarantinaID');
+            $detail->karantina_alamat=$request->input('karantina_alamat');
+            $detail->karantina_PmKecamatanID=$request->input('karantina_PmKecamatanID');
+            $detail->karantina_Nm_Kecamatan=$request->input('karantina_Nm_Kecamatan');
+            $detail->karantina_PmDesaID=$request->input('karantina_PmDesaID');
+            $detail->karantina_Nm_Desa=$request->input('karantina_Nm_Desa');
+            $detail->karantina_mulai=$request->input('karantina_mulai');
+            $detail->karantina_selesai=$request->input('karantina_selesai');
+            $detail->karantina_time=$request->input('karantina_time');
+
+            $detail->transmisi_penularan=$request->input('transmisi_penularan');            
+            $detail->ket_transmisi=$request->input('ket_transmisi');            
+            $detail->jenis_test=$request->input('jenis_test');                
+            
+            $detail->save();
+            
+            \App\Models\Setting\ActivityLog::log($request,[
+                                            'object' => $this->guard()->user(), 
+                                            'user_id' => $this->guard()->user()->id, 
+                                            'message' => 'Mengubah detail pasien ('.$user->username.') berhasil'
+                                        ]);
+                
+            return Response()->json([
+                                        'status'=>1,
+                                        'pid'=>'update',
+                                        'user'=>$user,                                    
+                                        'detail'=>$detail,                                    
+                                        'message'=>'Data detail pasien  berhasil diubah.'
                                     ],200); 
         }
 
