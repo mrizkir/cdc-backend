@@ -279,21 +279,48 @@ class UsersPasienController extends Controller {
                         "Nm_Kecamatan",
                         "PmDesaID",
                         "Nm_Desa",
+
+                        "founded_alamat",
+                        "founded_alamat",
+                        "founded_PmKecamatanID",
+                        "founded_Nm_Kecamatan",
+                        "founded_PmDesaID",
+                        "founded_Nm_Desa",
+                        "founded_lat",
+                        "founded_lng",
+
+                        "FasilitasKarantinaID",
+                        "karantina_alamat",            
+                        "karantina_PmKecamatanID",
+                        "karantina_Nm_Kecamatan",
+                        "karantina_PmDesaID",
+                        "karantina_Nm_Desa",
+                        
+                        "karantina_mulai",
+                        "karantina_selesai",            
+                        "karantina_time",
+
+                        "transmisi_penularan",
+                        "ket_transmisi",
+                        
+                        "jenis_test",
+                        
                         "foto",
                         "status_pasien",
                         "nama_status",
                         "payload",
-                        "created_at",
-                        "updated_at"'
+                        users.created_at,
+                        users.updated_at'
                     ))
                     ->join('pasien_status','pasien_status.id_status','users.status_pasien')
+                    ->leftJoin('pasien_detail','pasien_detail.user_id','users.id')
                     ->find($id);
         
         if (is_null($user))
         {
             return Response()->json([
                                 'status'=>0,
-                                'pid'=>'destroy',                
+                                'pid'=>'fetchdata',                
                                 'message'=>"Data Pasien tidak ditemukan"
                             ],422);   
         }
