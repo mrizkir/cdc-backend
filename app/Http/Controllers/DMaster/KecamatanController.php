@@ -103,6 +103,8 @@ class KecamatanController extends Controller {
         else
         {
             $pasien = User::where('PmKecamatanID',$id)
+                            ->orderBy('status_pasien','ASC')
+                            ->orderBy('name','ASC')
                             ->get();
             
             return Response()->json([
