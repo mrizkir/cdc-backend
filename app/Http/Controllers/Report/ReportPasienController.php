@@ -8,16 +8,21 @@ use App\Http\Controllers\Controller;
 class ReportPasienController extends Controller 
 {
      /**
-     * Show the form for creating a new resource.
+     * Menampilkan daftar pasien all
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function pasienall(Request $request)
     {             
         // $this->hasPermissionTo('REPORT PASIEN ALL');
-
+        
     }
-    public function printtoexcel (Request $request)
+    /**
+     * print to excel pasien all
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function printtoexcelpasienall (Request $request)
     {
         // $this->hasPermissionTo('FORM A MURNI_BROWSE');
 

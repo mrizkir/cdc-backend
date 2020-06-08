@@ -8,7 +8,19 @@ class Helper {
      * nama bulan dalam bahasa indonesia
      */
     private static $Bulan = array(1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember');
-   
+    
+    /*
+     * nama bulan dalam bahasa indonesia
+     */
+    private static $statusPasien = [
+                                    0=>'POSITIF MENINGGAL', 
+                                    1=>'POSITIF AKTIF',
+                                    2=>'POSITIF SEMBUH',
+                                    3=>'PDP PROSES',
+                                    4=>'PDP SELESAI',
+                                    5=>'ODP PROSES',
+                                    6=>'ODP SELESAI'
+                                ];
     /**
      * digunakan untuk mendapatkan bulan
      */
@@ -94,4 +106,15 @@ class Helper {
     {
         return rtrim(app()->basePath('storage/app/public/' . $path), '/');
     } 
+    public static function getStatusPasien ($status=null)
+    {
+        if ($status == null)
+        {
+            return Helper::$statusPasien;
+        }
+        else
+        {
+            return Helper::$statusPasien[$status];
+        }
+    }
 }

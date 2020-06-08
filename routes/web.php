@@ -58,8 +58,8 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/pasien/lokasiterakhir',['middleware'=>['role:superadmin|gugustugas|petugas|pasien'],'uses'=>'Setting\UsersPasienController@lokasiterakhir','as'=>'pasien.lokasiterakhir']);    
 
     //report - pasien all
-    $router->get('/report/pasienall',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@pasienall','as'=>'reportpasienall.index']);    
-    $router->get('/report/pasienall/printtoexcel',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@printtoexcel','as'=>'reportpasienall.printtoexcel']);    
+    $router->post('/report/pasienall',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@pasienall','as'=>'reportpasienall.index']);    
+    $router->post('/report/pasienall/printtoexcel',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Report\ReportPasienController@printtoexcelpasienall','as'=>'reportpasienall.printtoexcel']);    
 
     //setting - permissions
     $router->get('/setting/permissions',['middleware'=>['role:superadmin|gugustugas|petugas'],'uses'=>'Setting\PermissionsController@index','as'=>'permissions.index']);
